@@ -10,6 +10,7 @@ echo $trailvid1;?>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="../css/bootstrap.css" rel="stylesheet">
         <link rel="icon" type="image/ico" href="../img/icon.ico"> 
+        <link rel="stylesheet" href="../css/styles.css" />
     </head>
 
     <body>
@@ -18,39 +19,34 @@ echo $trailvid1;?>
             <br/>	
             <button  type="button" id ="Instruction" class="btn btn-warning" style="margin-right: 100px;width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>
         </div>
-<h1>
-        Give Rating to this Video
-    </h1>
-</div>
-      <div>  <form class = "test-video" action="" method="post" required>
-      <table>
-        <th></th>
-        <th>
-          <tr><td>Give Rating to this video from 5 to 1:</td></tr>
-        </th>
-        <tr>
-          <td><input type="radio" name="rating" value="5" required>Excellent</td>
-        </tr>
-        <tr>
-          <td><input type="radio" name="rating" value="4">Good</td>
-        </tr>
-        <tr>
-          <td><input type="radio" name="rating" value="3">Fair</td>
-        </tr>
-        <tr>
-          <td><input type="radio" name="rating" value="2">Poor</td>
-        </tr>
-        <tr>
-          <td><input type="radio" name="rating" value="1">Bad</td>
-        </tr>
-        <tr>
-          <td><input type="submit" value="submit" name="submit"></td>
-      </tr>
 
-      </table>
-  </div>
-</form>
-</div></body>
+<div class="container" >
+ <div class="main">
+ <h2>Rating</h2>
+ <span id="error">
+ <!---- Initializing Session for errors --->
+ <?php
+ if (!empty($_SESSION['error'])) {
+ echo $_SESSION['error'];
+ unset($_SESSION['error']);
+ }
+ ?>
+ </span>
+ <form action="" method="post">
+ <label>Give rating to video from Excellent to Bad</label>
+ <input type="radio" name="rating" value="5" required>Excellent
+ <input type="radio" name="rating" value="4">Fair
+ <input type = "radio" name="rating" value="3">Good
+ <input type="radio" name="rating" value="2">Poor
+ <input type="radio" name="rating" value="1">Bad
+ <br>
+ <input type="reset" name="Reset" />
+ <input type="submit" value="Next" />
+ </form>
+ </div>
+ </div>
+
+      </body>
 
             <?php
             include("../dbinfo.inc.php");
@@ -162,7 +158,7 @@ echo $trailvid1;?>
                 echo "success";
             }
         //update page position 
-            $nextpage = 3;
+            $pagepos = 'form1.php' ;
             $sql = "update tasks_completed set pagepos="."'".$nextpage."'"." where subject_id="."'".$id."'";
             $res = $conn->query($sql);
             if ($res){

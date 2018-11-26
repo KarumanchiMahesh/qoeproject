@@ -49,7 +49,7 @@ session_start();
     if ($res3){
         echo "success";
     }
-    $pagepos = 2;
+    $pagepos = 'trailvid1';
     $sql4 = "update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id=".$id;
     $res4 = $conn->query($sql4);
     if ($res4){

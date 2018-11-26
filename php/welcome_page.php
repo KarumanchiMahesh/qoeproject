@@ -18,7 +18,7 @@ if ($conn){
   //echo 'success';
 }
 $id = $_GET['id'];
-//check if worker already exists -> redirect to reconnection
+//check if worker already exists -> redirect to reconnection.php
 
 //check if worker already completed the test
 
@@ -106,6 +106,8 @@ else{
     echo "success";
   }
 }
+
+// loading video sequence
 
 
 ?>

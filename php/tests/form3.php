@@ -92,7 +92,7 @@ session_start();
   
   
   ?>
-     
+     <form method="post" action="">
         <table>
         <th></th>
         <th>

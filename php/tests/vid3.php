@@ -32,11 +32,17 @@ session_start();
     else{
         echo "no token issued";
     }
+    $task_id = $token_no%14;
+    if ($task_id==0){
+        $task_id=14;
+    }
 
-    $vid_id = ($token_no%14)+28;
+    $vid_id = ($task_id)+28;
+
+
     echo "<font color=white>".$vid_id."</font>";
 
-    $sql2 = 'select video_name from video_storage where id=1';//id=$task_id
+    $sql2 = 'select video_name from video_storage where id=1';//id=$vid_id
     $res2 = $conn->query($sql2);
     if ($res2->num_rows>0){
         while ($row = $res2->fetch_assoc()){
@@ -81,10 +87,7 @@ session_start();
         <br/>
 
         <div class="text-center">
-        <script>
-            var html = '<video width="1280" height="720" id="Video1" autoplay><source src="../vids/test1.mp4" type="video/mp4">Your browser does not support the video playback.</video>';
-            document.write(html);
-        </script>
+        <video width="1280" height="720" id="Video1" autoplay><source src="../vids/test1.mp4" type="video/mp4">Your browser does not support the video playback.</video>
         </div>
 
 

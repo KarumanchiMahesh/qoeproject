@@ -1,28 +1,66 @@
-
 <?php
-//ob_start();
+ob_start();
 
 // No Worker-id
-//if (empty($_GET['id'])) {
-//    while (ob_get_status()) {
-//        ob_end_clean();
-//    }
-//    header("Location: errors/noid.php");
-//    exit();
-//}
+if (empty($_GET['id'])) {
+    while (ob_get_status()) {
+        ob_end_clean();
+    }
+    header("Location: errors/noid.php");
+    exit();
+}
 
-include("dbinfo.php");
+include('dbinfo.inc.php');
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
-//$worker_id = $_GET['id'];
-//print("debug fail 3");
-//print($worker_id);
+$id = $_GET['id'];
+//check if worker lost his connection
+$sql = "select * from tasks_completed where subject_id=".$id;
+
+$res = $conn->query($sql);
+if ($res->num_rows>0){
+    while($row=$res->fetch_assoc()){
+        $pagepos = $row['pagepos'];
+    }
+    if ($pagepos=='index.php'){
+        //worker is on reloading the same page 
+        // do nothing
+    }
+    else{
+        header('location:reconnect.php?id='.$id);
+    }
+
+}
+else
+{
+//new entry
+//update tasks_completed table 
+
+$sql = "insert into tasks_completed (subject_id) values ('$id')";
+
+$res = $conn->query($sql);
+if ($res){
+    echo "success";
+}
+$sql = "select * from tasks_completed where subject_id=".$id;
+$res = $conn->query($sql);
+if ($res->num_rows>0){
+    while ($row = $res->fetch_assoc()){
+        $token_no = $row['token_no'];
+    }
+}
+else{
+    echo 'no toke issued';
+}
+$sql = "insert into temporary_data (subject_id,subject_no) values ('$id','$token_no')";
+$res = $conn->query($sql);
+if ($res){
+    echo "success";
+}
+
+}
+
 // Check if worker already exist
-
-
-$worker_id = $_GET['id'];
-
-
-
 ?>
 
 <!DOCTYPE html> 
@@ -92,7 +130,7 @@ $worker_id = $_GET['id'];
                 <div class="text-center" id="screentest">
                     <h1>Screen Test</h1>
 
-                    <form class="form-horizontal" action="" method="post" id="frm-screenTestForm">
+                    <form class="form-horizontal" action="#" method="post" id="frm-screenTestForm">
 
                         <blockquote>
                             <p>Please select highest and smallest <strong>visible number </strong> on the white picture below.</p> 
@@ -268,7 +306,7 @@ $worker_id = $_GET['id'];
 
                 <br>
 
-                <form action="#" method="post" name="questions" required>
+                <form action="" method="post">
 
 
                     <div class="text-center" style="border:2px solid;border-radius:25px;">
@@ -333,36 +371,26 @@ $worker_id = $_GET['id'];
                             </table>
 
                             <p>
-                                <input name="add" type="submit" class="btn btn-primary btn-large"  id="start" value="Start Test &raquo;" style="width:150px;visibility:visible;">
-                            </p>   
+                                <input name="submit" type="submit" class="btn btn-primary btn-large"  id="start" value="Start Test &raquo;" style="width:150px;visibility:visible;">
+                            </p>
+                          
+                      
 
+                            </div>
+                        
                         </div>
-
-
-                    </div>
 
                 </form>
 
 
-                <div class="text-center">
-
-                    <br><br>
-
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" id="percentage" style="width: 0%;">
-                            <b id="progress-text">0 %</b>
-                        </div>
-                        <br/>
-
-                    </div> 
-                </div>
+               
             </div>
         </div>
-       
+        
     </div> <!-- /container -->
 
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
     <script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
     <script src="js/bootstrap.js" type="text/javascript"></script>
     <script src="js/screentest.js"></script>
@@ -374,7 +402,12 @@ $worker_id = $_GET['id'];
             if (($(window).height() < 810) || ($(window).width() < 1260)) {
                 window.location = "errors/resolution.php?id=<?php echo $worker_id ?>";
             }
-        
+            else {
+                $("#Video1").get(0).playbackRate = 16;
+                $("#Video2").get(0).playbackRate = 16;
+                loop(0);
+            }
+
         });
 
         $('.dropdown-toggle').dropdown();
@@ -397,28 +430,22 @@ $worker_id = $_GET['id'];
             else {
 
                 var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);
+                var data = 'id=' + encodeURIComponent("<?php echo $worker_id ?>") +
+                        '&Lowest=' + encodeURIComponent($('#smallestVisible input[type=radio]:checked').val()) +
+                        '&Highest=' + encodeURIComponent($('#highestVisible input[type=radio]:checked').val()) +
+                        '&Time=' + encodeURIComponent(finalTime) +
+                        '&ClickNum=' + encodeURIComponent(clickNo) +
+                        '&Score=' + encodeURIComponent(score);
+                $.each($("input[name='blackStars[]']:checked"), function() {
+                    data += "&Star" + $(this).val() + "=" + encodeURIComponent("1");
+                    stars[$(this).val()] = 1;
+                });
                
-                //$.each($("input[name='blackStars[]']:checked"), function() {
-                  //  data += "&Star" + $(this).val() + "=" + encodeURIComponent("1");
-                   // stars[$(this).val()] = 1;
-                //});
-                alert (score);
                 if (score > 5) {
                     window.location.href = "errors/screentestfail.php";
                 }
                 else{
-                    $.ajax({
-                    type: "POST",
-                    url: "screentest.php",
-                    data:{id: "<?php echo $worker_id?>",Lowest: encodeURIComponent($('#smallestVisible input[type=radio]:checked').val()),Highest: encodeURIComponent($('#highestVisible input[type=radio]:checked').val()),Time: encodeURIComponent(finalTime),ClickNum: encodeURIComponent(clickNo),Score: encodeURIComponent(score)},
-                    success: function() {
-                        $('#screentest').toggle(1, "swing", screentestDone());
-                    },
-                    error: function() {
-                        alert(data,"data not transmitted");
-                        window.location.href = "errors/screentestfail.php";
-                    }
-                });
+                    $('#screentest').toggle(1,"swing",screentestDone());
                 }
 
             }
@@ -426,8 +453,8 @@ $worker_id = $_GET['id'];
         });
 
         // Start button
-        $("#start").click(function(e) {
-            e.preventDefault();
+        $("#start").click(function() {
+            
 
             if ($('#screentestDone').css('display') == 'none') {
                 alert("Please complete the screen test.");
@@ -442,19 +469,8 @@ $worker_id = $_GET['id'];
                 return false;
             }
             else {
-                $.ajax({
-                    type: "POST",
-                    url: "insert.php",
-                    data: {id: "<?php echo $worker_id ?>", 
-                        age: $("input[name='Age']:checked").val(),
-                        environment: $("input[name='Environment']:checked").val(),
-                        gender: $("input[name='Gender']:checked").val(),
-                        view_hours: $("input[name='Hours']:checked").val(),
-                     },
-                    success: function() {
-                        window.location.href = "<?php echo 'tests/trailvid1.php?id='.$worker_id; ?>";
-                    }
-                });
+                //do nothing
+            
 
             }
         });
@@ -509,8 +525,53 @@ $worker_id = $_GET['id'];
         }
 
 
-       
+      
 
     </script> 
+   
 
+ <?php
+    echo "<p>hello</p>";
+    echo $id;
+    $sql = "select * from tasks_completed where subject_id=".$id;
+    $res = $conn->query($sql);
+    if ($res->num_rows>0){
+        while ($row = $res->fetch_assoc()){
+            $token_no = $row['token_no'];
+            
+
+        }
+        echo "token issues";
+    }
+    else{
+    echo 'no toke issued';
+    }
+    if (isset($_POST['submit'])){
+        $gender = $_POST['Gender'];
+        $age = $_POST['Age'];
+        $environment = $_POST['Environment'];
+        $hours = $_POST['Hours'];
+        
+        
+        if ($gender!=''&&$age!=''&&$environment!=''&&$hours!=''){
+            
+            $sql =  "UPDATE `temporary_data` SET `age`="."'".$age."'".",`gender`="."'".$gender."'".",`hours`="."'".$hours."'".",`environment`="."'".$environment."'"." where subject_id="."'".$id."'";
+            $res = $conn->query($sql);
+             if ($res){
+                //update nextpageposition
+                $pagepos = 'trailvid1'; 
+                $sql = "update `tasks_completed` set pagepos="."'".$pagepos."'"." where subject_id="."'".$id."'";
+                $res = $conn->query($sql);
+                if ($res){
+                header('location:tests/trailvid1.php?id='.$id);
+                }
+              }
+            else{
+                header('location:tests/trailvid2.php?id='.$id);
+            }
+        }
+        
+    }
+?>
 </body>
+</html>

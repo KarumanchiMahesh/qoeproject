@@ -1,115 +1,65 @@
+<!doctype html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Welcome back</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+    <link rel="icon" type="image/ico" href="img/icon.ico"> 
+
+</head>
 <?php
-
 include('dbinfo.inc.php');
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
-$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
-
-$sql = 'select * from tasks_completed where id='.$id;
-
+if ($conn){
+  //  echo "success";
+}
+else{
+    echo "Failed connection to database";
+}
+$id = $_GET['id'];
+$sql = "select * from tasks_completed where subject_id=".$id;
 $res = $conn->query($sql);
-
 if ($res->num_rows>0){
-    while ($row = $res->fetch_assoc()){
-        $pagepos = $row['pagepos'];
+    while ($row = $res->fetch_array()){
+        $page_to_be_loaded = $row['pagepos'];
+      //  echo $page_to_be_loaded;
     }
+
 }
-echo "<h1> Welcome Back You will be moved the page where you left</h1>";
+else{echo "Failed retrieving data ";}
+$nextpage = "tests/".$page_to_be_loaded.".php?id=".$id;
+?>
+<body>
+<div class="container">
+        <div class="row">
+            <div class="text-center">
+                <br><br><br>
+                <h1>Welcome back <?php echo $id ?></h1>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div>
+                <h3>We're loading the test where you left off, please wait...</h3>
+            </div>
+        </div>
 
-switch ($pagepos) {
-    case 1:
-        # code...
-        header('location:tests/trailvid1.php?id='.$id);
-        break;
-    case 2:
-        header('location:tests/trailvid1.php?id='.$id);
-        break;
-    case 3:
-        header('location:tests/trailvid2.php?id='.$id);
-        break;
-    case 4:
-        header('location:tests/trailvid2.php?id='.$id);
-        break;
-    case 5:
-        header('location:tests/vid1.php?id='.$id);
-        break; 
-    case 6:
-        header('location:tests/vid1.php?id='.$id);
-        break;
-    case 7:
-        header('location:tests/vid2.php?id='.$id);
-        break;
-    case 8:
-        header('location:tests/vid2.php?id='.$id);
-        break;
-    case 9:
-        header('location:tests/vid3.php?id='.$id);
-        break;
-    case 10:
-        header('location:tests/vid3.php?id='.$id);
-        break;
-    case 11:
-        header('location:tests/vid4.php?id='.$id);
-        break;
-    case 12:
-        header('location:tests/vid4.php?id='.$id);
-        break;
-    case 13:
-        header('location:tests/vid5.php?id='.$id);
-        break;
-    case 14:
-        header('location:tests/vid5.php?id='.$id);
-        break;
-    case 15:
-        header('location:tests/vid6.php?id='.$id);
-        break;
-    case 16:
-        header('location:tests/vid6.php?id='.$id);
-        break;
-    default:
-        # code...
-        header('location:welcome_page.php?id='.$id);
-        break;
-}
-if ($pagepos==17){
-    //check if user has given atleast 2 correct answers
+        <br><br><br><br>
+
+        <div class="text-center">
+
+            <p>
+                <input name="add" type="submit" class="btn btn-primary btn-large enabled"  id="start" value="Continue Test &raquo;"  onclick="window.location.href='<?php echo $nextpage;?>'" style="width:150px;">
+            </p>   
+
+            <br><br>
+
+        </div>
 
 
-        $sql = 'select * from temporary_data where subject_id='.$id;
-
-        $res = $conn->query($sql);
-
-        if ($res->num_rows>0){
-            while ($row=$res->fetch_assoc()){
-                $correct1 = $row['correct1'];
-                $correct2 = $row['correct3'];
-                $correct3 = $row['correct5'];
-                $ansrec1 = $row['ansrec1'];
-                $ansrec2 = $row['ansrec3'];
-                $ansrec3 = $row['ansrec5'];
-            }
-        }
-        $correct = 0;
-        if ($correct1==$ansrec1){
-            $correct = $correct + 1;
-        }
-        if ($correct2==$ansrec2){
-            $correct = $correct + 1;
-        }
-        if ($correct3==$ansrec3){
-            $correct = $correct + 1;
-        }
-
-        $sql = "update temporary_data set receivedcorrectans="."'".$correct."'"." where subject_id="."'".$id."'";
-        $res = $conn->query($sql);
-        if ($correct<2){
-            header('location:errors/testfail.php?id='.$id);
-
-        }
-        else{
-
-
-
-            header('location:end.php?id='.$id);
-
-        }   
-}
+</body>
+</html>

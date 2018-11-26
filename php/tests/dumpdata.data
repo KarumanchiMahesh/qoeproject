@@ -1,0 +1,46 @@
+dump data
+560-590
+ if (isset($_POST['add'])){
+        $gender = $_POST['Gender'];
+        $age = $_POST['Age'];
+        $hours = $_POST['Hours'];
+        $environment = $_POST['Environment'];
+        $id = $_GET['id'];
+        $sql = "select * from tasks_completed where subject_id=".$id;
+        $res = $conn->query($sql);
+        if ($res->num_rows>0){
+            while ($row=$res->fetch_assoc()){
+                $token_no = $row['token_no'];
+            }
+        }
+
+        if (($gender!='')&&($age!='')&&($hours!='')&&($environment!='')){
+            $sql = "insert into temporary_data (subject_no,id,gender,age,hours,environment) values ('$token_no',$id',$gender','$age','$hours','$environment')";
+
+            $res = $conn->query($sql);
+
+            if ($res){
+                //update the next page position
+                $sql = "insert into tasks_completed (pagepos) values ('1') where subject_id=".$id;
+                $res = $conn->query($sql);
+                if ($res){
+                    echo "sucess";
+                }
+                header('location:tests/trailvid1.php?id='.$id);
+            }
+            
+        }
+    }
+18-32
+$sql = "select * from tasks_completed where subject_id=".$id;
+
+$res = $conn->query($sql);
+if ($res->num_rows>0){
+    while($row=$res->fetch_assoc()){
+        $pagepos = $row['pagepos'];
+    }
+    if ($pagepos==0){
+        //worker is on reloading the same page 
+        // do nothing
+    }
+    }

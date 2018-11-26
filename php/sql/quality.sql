@@ -39,6 +39,9 @@ create table if not exists `questions` (`taskid` int(11) not null, `formid` int(
 --
 -- Dumping data into table `questions`
 --
+--
+-- table structure for table new
+--
 
 INSERT INTO `questions` (`taskid`, `formid`,  `question`, `option1`, `option2`, `option3`, `correct`) VALUES
 (1, 1,  'What color clothing did the mechanic wear?', 'Blue', 'Red', 'Yellow', 1),
