@@ -34,7 +34,7 @@ create table if not exists `users_count`(`s.no` int(11) not null AUTO_INCREMENT,
 --
 
 
-create table if not exists `questions` (`taskid` int(11) not null, `formid` int(11) not null, `question` varchar(255) not null, `option1` varchar(255) not null, `option2` varchar(255) not null, `option3` varchar(255) not null, `correct` varchar(255) not null);
+create table if not exists `questions` (`vid_id` int(11) not null, `question` varchar(255) not null, `option1` varchar(255) not null, `option2` varchar(255) not null, `option3` varchar(255) not null, `correct` varchar(255) not null);
 
 --
 -- Dumping data into table `questions`
@@ -43,69 +43,67 @@ create table if not exists `questions` (`taskid` int(11) not null, `formid` int(
 -- table structure for table new
 --
 
-INSERT INTO `questions` (`taskid`, `formid`,  `question`, `option1`, `option2`, `option3`, `correct`) VALUES
-(1, 1,  'What color clothing did the mechanic wear?', 'Blue', 'Red', 'Yellow', 1),
-(1, 3,  'What color clothing did the mechanic wear?', 'Red', 'Yellow', 'Blue', 3),
-(1, 5,  'What color clothing did the mechanic wear?', 'Red', 'Blue', 'Yellow', 2),
-(2, 1,  'What was present in both videos?', 'Vehicles', 'Animals', 'Figurines', 1),
-(2, 3, 'What was present in both videos?', 'Animals', 'Figurines', 'Vehicles', 3),
-(2, 5,  'What was present in both videos?', 'Figurines', 'Vehicles', 'Animals', 2),
-(3, 1,  'What kind of vehicle did the person drive?', 'Motorbike', 'Car', 'Truck', 1),
-(3, 3,  'What kind of vehicle did the person drive?', 'Car', 'Truck', 'Motorbike', 3),
-(3, 5,  'What kind of vehicle did the person drive?', 'Truck', 'Motorbike', 'Car', 2),
-(4, 1, 'What kind of vehicle did the person drive?', 'Truck', 'Motorbike', 'Car', 2),
-(4, 3, 'What kind of vehicle did the person drive?', 'Motorbike', 'Truck', 'Car', 1),
-(4, 5, 'What kind of vehicle did the person drive?', 'Car', 'Truck', 'Motorbike', 3),
-(5, 1, 'What color was the blouse in the middle of the clip?', 'Black', 'Red', 'Blue', 2),
-(5, 3, 'What color was the blouse in the middle of the clip?', 'Red', 'Black', 'Blue', 1),
-(5, 5, 'What color was the blouse in the middle of the clip?', 'Blue', 'Black', 'Red', 3),
-(6, 1, 'What kind of vehicle did the person drive?', 'Motorbike', 'Truck', 'Car', 1),
-(6, 3, 'What kind of vehicle did the person drive?', 'Car', 'Motorbike', 'Truck', 2),
-(6, 5, 'What kind of vehicle did the person drive?', 'Truck', 'Car', 'Motorbike', 3),
-(7, 1, 'How many videos contained stopping?', '2', '0', '1', 2),
-(7, 3, 'How many videos contained stopping?', '0', '1', '2', 1),
-(7, 5, 'How many videos contained stopping?', '2', '1', '0', 3),
-(8, 1, 'What was visible in both videos?', 'People', 'Telephones', 'Dogs', 1),
-(8, 3, 'What was visible in both videos?', 'Telephones', 'People', 'Dogs', 2),
-(8, 5, 'What was visible in both videos?', 'Dogs', 'Telephones', 'People', 3),
-(9, 1, 'What was shown in the end of one video?', 'Text', 'Woods', 'Airplanes', 1),
-(9, 3, 'What was shown in the end of one video?', 'Woods', 'Text', 'Airplanes', 2),
-(9, 5, 'What was shown in the end of one video?', 'Airplanes', 'Woods', 'Text', 3),
-(10, 1, 'What kind of content was shown in the videos?', 'Sports', 'News', 'Movie', 2),
-(10, 3, 'What kind of content was shown in the videos?', 'Movie', 'Sports', 'News', 3),
-(10, 5, 'What kind of content was shown in the videos?', 'News', 'Sports', 'Movie', 1),
-(11, 1, 'What was shown below the red telephone?', 'Numbers', 'Barcodes', 'Signatures', 1),
-(11, 3, 'What was shown below the red telephone?', 'Signatures', 'Barcodes', 'Numbers', 3),
-(11, 5, 'What was shown below the red telephone?', 'Barcodes', 'Numbers', 'Signatures', 2),
-(12, 1, 'How many of the videos contained stoppings?', '2', '1', '0', 3),
-(12, 3, 'How many of the videos contained stoppings?', '0', '1', '2', 1),
-(12, 5, 'How many of the videos contained stoppings?', '2', '0', '1', 2),
-(13, 1, 'What activity was shown the videos?', 'Swimming', 'Dancing', 'Running', 2),
-(13, 3, 'What activity was shown the videos?', 'Dancing', 'Swimming', 'Running', 1),
-(13, 5, 'What activity was shown the videos?', 'Running', 'Swimming', 'Dancing', 3),
-(14, 1, 'What activity was shown in the videos?', 'Running', 'Fighting', 'Dancing', 3),
-(14, 3, 'What activity was shown in the videos?', 'Dancing', 'Fighting', 'Running', 1),
-(14, 5, 'What activity was shown in the videos?', 'Running', 'Dancing', 'Fighting', 2);
-/*(43, 'test1', 'test2', 'Which activity was shown in both videos?', 'Racing', 'Fighting', 'Dancing', 3),
-(44, 'test1', 'test2', 'Which activity was shown in both videos?', 'Racing', 'Dancing', 'Fighting', 2),
-(45, 'test1', 'test2', 'Which activity was shown in both videos?', 'Dancing', 'Fighting', 'Racing', 1),
-(46, 'test1', 'test2', 'What color clothing did the oldest man wear?', 'Black', 'Red', 'Blue', 1),
-(47, 'test1', 'test2', 'What color clothing did the oldest man wear?', 'Red', 'Black', 'Blue', 2),
-(48, 'test1', 'test2', 'What color clothing did the oldest man wear?', 'Blue', 'Red', 'Black', 3),
-(49, 'test1', 'test2', 'What activity was shown in the videos?', 'Dancing', 'Fighting', 'Swimming', 1),
-(50, 'test1', 'test2', 'What activity was shown in the videos?', 'Fighting', 'Dancing', 'Swimming', 2),
-(51, 'test1', 'test2', 'What activity was shown in the videos?', 'Swimming', 'Fighting', 'Dancing', 3),
-(52, 'test1', 'test2', 'What activity was shown in the videos?', 'Dancing', 'Fighting', 'Racing', 1),
-(53, 'test1', 'test2', 'What activity was shown the videos?', 'Fighting', 'Dancing', 'Racing', 2),
-(54, 'test1', 'test2', 'What activity was shown the videos?', 'Racing', 'Fighting', 'Dancing', 3),
-(55, 'test1', 'test2', 'What was visible in both clips?', 'Car(s)', 'Bike(s)', 'Airplane(s)', 1),
-(56, 'test1', 'test2', 'What was visible in both clips?', 'Bike(s)', 'Car(s)', 'Airplane(s)', 2),
-(57, 'test1', 'test2', 'What was visible in both clips?', 'Airplane(s)', 'Bike(s)', 'Car(s)', 3),
-(58, 'test1', 'test2', 'What kind of car were in the videos?', 'Police Car', 'Ambulance', 'Fire Truck', 1),
-(59, 'test1', 'test2', 'What kind of car were in the videos?', 'Ambulance', 'Police Car', 'Fire Truck', 2),
-(60, 'test1', 'test2', 'What kind of car were in the videos?', 'Fire Truck', 'Ambulance', 'Police Car', 3),
-(61, 'test1', 'test2', 'What kind of vehicle were in the videos?', 'Police Car', 'Ambulance', 'Fire Truck', 1),
-(62, 'test1', 'test2', 'What kind of vehicle were in the videos?', 'Ambulance', 'Police Car', 'Fire Truck', 2),
+INSERT INTO `questions` (`vid_id`,  `question`, `option1`, `option2`, `option3`, `correct`) VALUES
+(1,   'What color clothing did the mechanic wear?', 'Blue', 'Red', 'Yellow', 1),
+(2,   'What color clothing did the mechanic wear?', 'Red', 'Yellow', 'Blue', 3),
+
+(3,   'What was present in both videos?', 'Vehicles', 'Animals', 'Figurines', 1),
+(4,  'What was present in both videos?', 'Animals', 'Figurines', 'Vehicles', 3),
+
+(5,   'What kind of vehicle did the person drive?', 'Motorbike', 'Car', 'Truck', 1),
+(6,   'What kind of vehicle did the person drive?', 'Car', 'Truck', 'Motorbike', 3),
+(7,  'What kind of vehicle did the person drive?', 'Truck', 'Motorbike', 'Car', 2),
+(8,  'What kind of vehicle did the person drive?', 'Motorbike', 'Truck', 'Car', 1),
+
+(9,  'What color was the blouse in the middle of the clip?', 'Black', 'Red', 'Blue', 2),
+(10,  'What color was the blouse in the middle of the clip?', 'Red', 'Black', 'Blue', 1),
+
+(11,  'What kind of vehicle did the person drive?', 'Motorbike', 'Truck', 'Car', 1),
+(12,  'What kind of vehicle did the person drive?', 'Car', 'Motorbike', 'Truck', 2),
+
+(13,  'How many videos contained stopping?', '2', '0', '1', 2),
+(14,  'How many videos contained stopping?', '0', '1', '2', 1),
+
+(29,  'What was visible in both videos?', 'People', 'Telephones', 'Dogs', 1),
+(30,  'What was visible in both videos?', 'Telephones', 'People', 'Dogs', 2),
+
+(31, 'What was shown in the end of one video?', 'Text', 'Woods', 'Airplanes', 1),
+(32,  'What was shown in the end of one video?', 'Woods', 'Text', 'Airplanes', 2),
+
+(33,  'What kind of content was shown in the videos?', 'Sports', 'News', 'Movie', 2),
+(34,  'What kind of content was shown in the videos?', 'Movie', 'Sports', 'News', 3),
+
+(35,  'What was shown below the red telephone?', 'Numbers', 'Barcodes', 'Signatures', 1),
+(36,  'What was shown below the red telephone?', 'Signatures', 'Barcodes', 'Numbers', 3),
+
+(37, 'How many of the videos contained stoppings?', '2', '1', '0', 3),
+(38,  'How many of the videos contained stoppings?', '0', '1', '2', 1),
+
+(39, 'What activity was shown the videos?', 'Swimming', 'Dancing', 'Running', 2),
+(40,  'What activity was shown the videos?', 'Dancing', 'Swimming', 'Running', 1),
+
+(41,  'What activity was shown in the videos?', 'Running', 'Fighting', 'Dancing', 3),
+(42,  'What activity was shown in the videos?', 'Dancing', 'Fighting', 'Running', 1),
+
+(57,'Which activity was shown in both videos?', 'Racing', 'Fighting', 'Dancing', 3),
+(58, 'Which activity was shown in both videos?', 'Racing', 'Dancing', 'Fighting', 2),
+(59,  'What color clothing did the oldest man wear?', 'Black', 'Red', 'Blue', 1),
+(60, 'What color clothing did the oldest man wear?', 'Red', 'Black', 'Blue', 2),
+
+(61,  'What activity was shown in the videos?', 'Dancing', 'Fighting', 'Swimming', 1),
+(62,  'What activity was shown in the videos?', 'Fighting', 'Dancing', 'Swimming', 2),
+
+(63,  'What activity was shown in the videos?', 'Dancing', 'Fighting', 'Racing', 1),
+(64, 'What activity was shown the videos?', 'Fighting', 'Dancing', 'Racing', 2),
+(65,  'What was visible in both clips?', 'Car(s)', 'Bike(s)', 'Airplane(s)', 1),
+(66, 'What was visible in both clips?', 'Bike(s)', 'Car(s)', 'Airplane(s)', 2),
+
+(67, 'What kind of car were in the videos?', 'Police Car', 'Ambulance', 'Fire Truck', 1),
+(68,  'What kind of car were in the videos?', 'Ambulance', 'Police Car', 'Fire Truck', 2),
+
+(69,  'What kind of vehicle were in the videos?', 'Police Car', 'Ambulance', 'Fire Truck', 1),
+(70,  'What kind of vehicle were in the videos?', 'Ambulance', 'Police Car', 'Fire Truck', 2);
+/*
 (63, 'test1', 'test2', 'What kind of vehicle were in the videos?', 'Fire Truck', 'Ambulance', 'Police Car', 3),
 (64, 'test1', 'test2', 'What kind of vehicle were in the videos?', 'Police Car', 'Ambulance', 'Fire Truck', 1),
 (65, 'test1', 'test2', 'What kind of vehicle were in the videos?', 'Ambulance', 'Police Car', 'Fire Truck', 2),
@@ -172,29 +170,6 @@ INSERT INTO `questions` (`taskid`, `formid`,  `question`, `option1`, `option2`, 
 (126, 'test1', 'test2', 'What type of event were shown in the videos?', 'Demonstration', 'Wedding', 'Concert', 3);*/
 
 -- -------------------------------------------------------
-
---
--- Table structure for table `screentest`
---
-
-CREATE TABLE IF NOT EXISTS `screentest` (
-  `Name` varchar(30) COLLATE latin1_general_ci NOT NULL,
-  `Lowest` int(1) NOT NULL,
-  `Highest` int(1) NOT NULL,
-  `Star8` tinyint(1) NOT NULL,
-  `Star1` tinyint(1) NOT NULL,
-  `Star2` tinyint(1) NOT NULL,
-  `Star3` tinyint(1) NOT NULL,
-  `Star4` tinyint(1) NOT NULL,
-  `Star5` tinyint(1) NOT NULL,
-  `Star6` tinyint(1) NOT NULL,
-  `Star7` tinyint(1) NOT NULL,
-  `Time` int(11) NOT NULL,
-  `ClickNum` int(11) NOT NULL,
-  `Score` int(4) NOT NULL,
-  PRIMARY KEY (`Name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
 -- --------------------------------------------------------
 
 --
