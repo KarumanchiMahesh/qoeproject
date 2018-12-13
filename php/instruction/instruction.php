@@ -110,6 +110,16 @@
 
             </div>
         </div>
+        <div class="btn-group btn-group-lg col-md-7" style="text-align:center;">
+                <p style="text-align:center;">
+                    <?php 
+                    $id=$_GET['id'];
+                    $location = "location.href='test/trailvid1.php?id=".$id."'";
+                    ?>
+                <button type="button" id ="play" class="btn btn-primary" onclick="location.href='tests/trailvid1.php';" style="text-align:center;">Start Trial</button>
+                </p>
+        </div> 
+    </div>
 
 
 </body>
