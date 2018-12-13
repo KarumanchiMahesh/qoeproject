@@ -765,14 +765,14 @@ if ($res){
             // Lowest outside interval    
             if (Lowest != "none")
                 if ((Lowest < 0) || (Lowest > 7))
-                    score += 3;
+                    score += 5;
             // Highest outside interval
             if (Highest != "none")
                 if ((Highest < 0) || (Highest > 7))
-                    score += 3;
+                    score += 5;
             // Lowest and Highest inconsistent
             if (Highest < Lowest)
-                score += 1;
+                score += 5;
             // Low time on page
             if (Time < 6000)
                 score += 1;
