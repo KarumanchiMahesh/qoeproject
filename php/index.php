@@ -824,16 +824,13 @@ if ($res){
             $res = $conn->query($sql);
              if ($res){
                 //update nextpageposition
-                $pagepos = 'trailvid1'; 
+                $pagepos = 'instruction/instruction'; 
                 $sql = "update `tasks_completed` set pagepos="."'".$pagepos."'"." where subject_id="."'".$id."'";
                 $res = $conn->query($sql);
                 if ($res){
-                header('location:tests/trailvid1.php?id='.$id);
+                header('location:instruction/instruction.php?id='.$id);
                 }
               }
-            else{
-                header('location:tests/trailvid2.php?id='.$id);
-            }
         }
         
     }
