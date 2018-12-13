@@ -1,13 +1,11 @@
 <?php
 session_start();
 ?>
-<?php
-session_start();
-$trailvidrating1 = $_SESSION['trailvid1rating'];
-echo $trailvidrating1;?><!DOCTYPE html>
+
+<!DOCTYPE html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Trail Video 2</title>
+    <title>Trail Video 1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <style>
@@ -20,61 +18,49 @@ echo $trailvidrating1;?><!DOCTYPE html>
     <?php
     include("../dbinfo.inc.php");
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+
     $id = $_GET['id'];
 
+    //small anti hacking
+    $sql='select * from tasks_completed where id='.$id;
+    $res=$conn->query($sql);
+    if ($res->num_rows>0){
+        while($row=$res->fetch_assoc()){
+            $status=$row['status'];
+        }
+    }
+    if ($status=='end'||$status='end_fail'||$status=='end_success'){
+        header('location:../ends/'.$status.'.php?id='.$id);
+    } 
 
-  //  $tmp = $dbname . ".subjects";
-   // $next = $conn->query("SELECT * FROM $tmp WHERE Name='$id'")->fetch_object()->Next;
-
-    //$sql = "SELECT test_id$next FROM $tmp WHERE Name='$id'";
-
-    //$test_id = $conn->query($sql)->fetch_row();
-
-    //$sql2 = "SELECT * FROM " . $dbname . ".results WHERE Test_id='$test_id[0]'";
-
-    //$vid = $conn->query($sql2)->fetch_object()->Vid1;
-
-    //mysqli_close($conn);
-
-    $sql2 = 'select video_name from video_storage where id=2';
+    $sql2 = 'select video_name from video_storage where id=1';
     $res2 = $conn->query($sql2);
     if ($res2->num_rows>0){
         while ($row = $res2->fetch_assoc()){
             $vid = $row['video_name'];
         }
     }
-    echo $vid;
     $trailvid1 = $vid;
 
-    $sql3 = "update temporary_data set trailvid2="."'".$trailvid1."'"." where subject_id=".$id;
+    $sql3 = "update temporary_data set trailvid1="."'".$trailvid1."'"." where subject_id=".$id;
 
     $res3 = $conn->query($sql3);
 
-    if ($res3){
-        echo "success";
-    }
-    $pagepos = 4;
+   
+    $pagepos = 'trailvid1';
     $sql4 = "update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id=".$id;
     $res4 = $conn->query($sql4);
-    if ($res4){
-        echo "success";
-    }
     
-
-
 
     ?>
 
     <div class="container">
         <br>
             <div class="col-md-4">
-                <font color="white" class="h1">Trail Video 2</font>
+                <font color="white" class="h1">Trail Video 1</font>
             </div>
 
-            <div class="btn-group btn-group-lg col-md-7">
-                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px" onclick="vidplay();">Play</button>
-                <button type="button" class="btn btn-primary" id="next" style="width:150px;height:50px;visibility:hidden">Continue</button>
-            </div> 
+            
             <div class="col-md-1">
                 <button  type="button" id ="Instruction" class="btn btn-warning" style="width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>		
             </div>
@@ -83,10 +69,7 @@ echo $trailvidrating1;?><!DOCTYPE html>
         <br/>
 
         <div class="text-center">
-        
         <video width="1280" height="720" id="Video1" autoplay><source src="<?php echo '../vids/'.$vid.'.mp4';?>" type="video/mp4">Your browser does not support the video playback.</video>
-            <?php echo "<div><p>video played=test2</p></div>";?>
-        
         </div>
 
 
@@ -104,9 +87,10 @@ echo $trailvidrating1;?><!DOCTYPE html>
             $(window).load(function() {
 
                 $("#Video1").bind('ended', function() {
-                    $('#next').css("visibility", "visible");
-                    $('#play').text("Play again");
-                    $('#Video1').css("visibility", "hidden");
+                //    $('#next').css("visibility", "visible");
+                //    $('#play').text("Play again");
+                //    $('#Video1').css("visibility", "hidden");
+                window.location.href="form1.php?id=<?php echo $id;?>";
                 });
             });
 
@@ -115,8 +99,12 @@ echo $trailvidrating1;?><!DOCTYPE html>
                     // do nothing
                 }
                 else {
-        
-                            window.location.href = "form2.php?id=<?php echo $id ?>";
+                            
+
+
+
+                            
+                            //window.location.href="form1.php?id=<?php //echo$id;?>";
                         }
                     });
 
@@ -139,3 +127,4 @@ echo $trailvidrating1;?><!DOCTYPE html>
     </script>
 
 </body>
+</html>
