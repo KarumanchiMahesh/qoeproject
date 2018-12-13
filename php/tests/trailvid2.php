@@ -5,7 +5,7 @@ session_start();
 <!DOCTYPE html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Trail Video 1</title>
+    <title>Trail Video 2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <style>
@@ -26,11 +26,11 @@ session_start();
     $res=$conn->query($sql);
     if ($res->num_rows>0){
         while($row=$res->fetch_assoc()){
-            $status=$row['status'];
+            $pagepos=$row['pagepos'];
         }
     }
-    if ($status=='end'||$status='end_fail'||$status=='end_success'){
-        header('location:../ends/'.$status.'.php?id='.$id);
+    if ($pagepos=='end'||$pagepos='end_fail'||$pagepos=='end_success'){
+        header('location:../ends/'.$pagepos.'.php?id='.$id);
     } 
 
     $sql2 = 'select video_name from video_storage where id=1';
@@ -40,14 +40,14 @@ session_start();
             $vid = $row['video_name'];
         }
     }
-    $trailvid1 = $vid;
+    $trailvid2 = $vid;
 
-    $sql3 = "update temporary_data set trailvid1="."'".$trailvid1."'"." where subject_id=".$id;
+    $sql3 = "update temporary_data set trailvid1="."'".$trailvid2."'"." where subject_id=".$id;
 
     $res3 = $conn->query($sql3);
 
    
-    $pagepos = 'trailvid1';
+    $pagepos = 'trailvid2';
     $sql4 = "update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id=".$id;
     $res4 = $conn->query($sql4);
     
@@ -90,7 +90,7 @@ session_start();
                 //    $('#next').css("visibility", "visible");
                 //    $('#play').text("Play again");
                 //    $('#Video1').css("visibility", "hidden");
-                window.location.href="form1.php?id=<?php echo $id;?>";
+                window.location.href="form2.php?id=<?php echo $id;?>";
                 });
             });
 

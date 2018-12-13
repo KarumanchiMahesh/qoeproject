@@ -26,11 +26,11 @@ session_start();
     $res=$conn->query($sql);
     if ($res->num_rows>0){
         while($row=$res->fetch_assoc()){
-            $status=$row['status'];
+            $pagepos=$row['pagepos'];
         }
     }
-    if ($status=='end'||$status='end_fail'||$status=='end_success'){
-        header('location:../ends/'.$status.'.php?id='.$id);
+    if ($pagepos=='end'||$pagepos='end_fail'||$pagepos=='end_success'){
+        header('location:../ends/'.$pagepos.'.php?id='.$id);
     } 
 
     $sql2 = 'select video_name from video_storage where id=1';
