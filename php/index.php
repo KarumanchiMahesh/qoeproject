@@ -758,7 +758,7 @@ else{
             end = new Date().getTime();
             finalTime = end - start;
             clickCounter_string = JSON.stringify(clickCounter);
-            stars = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+            stars = [1, 1, 1, 1, 1, 1, 1, 1, 1];
             if ($('#smallestVisible input[type=radio]:checked').length < 1) {
                 $('#smallestVisible').addClass('checkbox-error');
                 alert('Please select smallest visible number');
@@ -768,19 +768,11 @@ else{
                 alert('Please select highest visible number');
             }
             else {
-
-                var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);
-                var data = 'id=' + encodeURIComponent("<?php echo $worker_id ?>") +
-                        '&Lowest=' + encodeURIComponent($('#smallestVisible input[type=radio]:checked').val()) +
-                        '&Highest=' + encodeURIComponent($('#highestVisible input[type=radio]:checked').val()) +
-                        '&Time=' + encodeURIComponent(finalTime) +
-                        '&ClickNum=' + encodeURIComponent(clickNo) +
-                        '&Score=' + encodeURIComponent(score);
                 $.each($("input[name='blackStars[]']:checked"), function() {
-                    data += "&Star" + $(this).val() + "=" + encodeURIComponent("1");
-                    stars[$(this).val()] = 1;
+                    
+                    stars[$(this).val()] = 0;
                 });
-               
+                var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);    
                 if (score > 5) {
                     window.location.href = "errors/screentestfail.php";
                 }
@@ -820,9 +812,13 @@ else{
             var starSum = 0;
             // No stars selected
             for (k = 1; k < 9; k++) {
-                starSum += Stars[k];
+                starSum = Stars[k]+starSum;
+                alert(Stars[k]);
+                
             }
-            if (starSum === 0)
+            score = starSum;
+
+            if (starSum == 0)
                 score += 1;
             // Selected stars are not consecutive
             for (k = 1; k < 7; k++) {
@@ -856,7 +852,15 @@ else{
                 score += 1;
                 if (ClickNum > 3)
                     score += 3;
+                    alert('at clicknum'+score);
             }
+            if (Lowest != 1){
+                score+=5;
+            }
+            if (Highest != 5){
+                score+=5;
+            }
+            alert(score);
             return score;
         }
 
