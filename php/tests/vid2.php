@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -12,72 +9,47 @@ session_start();
     </style>
     <link rel="icon" type="image/ico" href="../img/icon.ico"> 
 </head>
-
 <body>
     <?php
     include("../dbinfo.inc.php");
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
     $id = $_GET['id'];
-
-    $sql = 'select token_no from tasks_completed where subject_id='.$id;
-
-    $res = $conn->query($sql);
-
+    
+        $res = $conn->query('select status from tasks_completed where subject_id='.$id);
+        if ($res->num_rows>0){
+            while($row=$res->fetch_assoc()){
+                $status=$row['status'];
+            }
+            if ($status=='success'){
+                header('location: ../testpass.php?id='.$id);
+            }
+            else if ($status=='failed'){
+                header('location: ../testfail.php?id='.$id);
+            }
+        }
+    $res = $conn->query('select token_no from tasks_completed where subject_id='.$id);
     if ($res->num_rows>0){
         while ($row = $res->fetch_assoc()){
             $token_no = $row['token_no'];
         }
-
+    }
+    if ($token_no%14==0){
+        $vid_id=14;
     }
     else{
-        echo "no token issued";
+        $vid_id=($token_no)%14;
     }
-
-    $vid_id = ($token_no%14)+14;
-    echo $token_no;
-
-    $sql2 = 'select video_name from video_storage where id=1';//id=$task_id
-    $res2 = $conn->query($sql2);
-    if ($res2->num_rows>0){
-        while ($row = $res2->fetch_assoc()){
+    echo $token_no;  
+    $res = $conn->query('select video_name from video_storage where id=3');
+    if ($res->num_rows>0){
+        while ($row = $res->fetch_assoc()){
             $vid = $row['video_name'];
         }
     }
-    echo $vid;
-    $vid2 = $vid;
-
-    $sql3 = "update temporary_data set vid2="."'".$vid2."'"." where subject_id=".$id;
-
-    $res3 = $conn->query($sql3);
-
-    if ($res3){
-        echo "success";
-    }
-    $pagepos = 8;
-    $sql4 = "update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id=".$id;
-    $res4 = $conn->query($sql4);
-    if ($res4){
-        echo "success";
-    }
-
-
-  //  $tmp = $dbname . ".subjects";
-   // $next = $conn->query("SELECT * FROM $tmp WHERE Name='$id'")->fetch_object()->Next;
-
-    //$sql = "SELECT test_id$next FROM $tmp WHERE Name='$id'";
-
-    //$test_id = $conn->query($sql)->fetch_row();
-
-    //$sql2 = "SELECT * FROM " . $dbname . ".results WHERE Test_id='$test_id[0]'";
-
-    //$vid = $conn->query($sql2)->fetch_object()->Vid1;
-
-    //mysqli_close($conn);
-
-
-
+    $res = $conn->query("update temporary_data set vid2="."'".$vid."'"." where subject_id=".$id);
+    $res = $conn->query("update tasks_completed set pagepos="."'"."vid1"."'"." where subject_id=".$id);
+    
     ?>
-
     <div class="container">
         <br>
             <div class="col-md-4">
@@ -96,59 +68,32 @@ session_start();
         <br/>
 
         <div class="text-center">
-        <script>
-            var html = '<video width="1280" height="720" id="Video1" autoplay><source src="../vids/test1.mp4" type="video/mp4">Your browser does not support the video playback.</video>';
-            document.write(html);
-        </script>
+        <video width="1280" height="720" id="Video1" autoplay><source src="<?php echo '../vids/'.$vid;?>" type="video/mp4">Your browser does not support the video playback.</video>
         </div>
-
-
     <script src="../js/jquery.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
     <script type="text/javascript">
-
-        
-
             function vidplay() {
                 $('#Video1').css("visibility", "visible");
                 $('#Video1').get(0).play();            
             }
-
             $(window).load(function() {
-
                 $("#Video1").bind('ended', function() {
-                    $('#next').css("visibility", "visible");
-                    $('#play').text("Play again");
-                    $('#Video1').css("visibility", "hidden");
+                    window.location.href = "rating2.php?id=<?php echo $id;?>";
                 });
             });
-
-            $('#next').on('click', function() {
-                if ($(this).attr('visibility') === 'hidden') {
-                    // do nothing
-                }
-                else {
-        
-                            window.location.href = "form4.php?id=<?php echo $id ?>";
-                        }
-                    });
-
-                
-        
-
             //Disable rightclick menu for video
             $(document).ready(function() {
                 $('#Video1').bind('contextmenu', function() {
                     return false;
                 });
             });
-
             //Pause video if window is hidden
             $(window).blur(function() {
                 $('#Video1').get(0).pause();
                 $('#Video1').css("visibility", "hidden");
+                $('#play').css("visibility","visible");
+                $('#play').css("text","play again");
             });
-
     </script>
-
 </body>

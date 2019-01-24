@@ -4,6 +4,7 @@ div.container{
  width: 960px;
  height: 610px;
  margin:50px auto;
+ background: whitesmoke;
 }
 div.main{
  width: 308px;
@@ -13,6 +14,7 @@ div.main{
  Border:2px solid #999900;
  padding:0px 50px 20px;
  font-family: 'Raleway', sans-serif;
+ background: whitesmoke;
 }
 #error{
  display:block;
@@ -61,6 +63,7 @@ margin-bottom:15px;
 }
 input[type=radio]
 {
+color: whitesmoke;
 margin:20px;
 }
 select{
@@ -72,7 +75,8 @@ font-size: 16px;
 font-family: cursive;
 }
 input[type=submit],
-input[type=reset]{
+input[type=reset],
+input[type=button]{
 padding: 10px;
 background: linear-gradient(#ffbc00 5%, #ffdd7f 100%);
 border: 1px solid #e5a900;
@@ -88,4 +92,7 @@ input[type=submit]:hover,
 input[type=reset]:hover
 {
 background: linear-gradient(#ffdd7f 5%, #ffbc00 100%);
+}
+form{
+    background-color: whitesmoke;
 }

@@ -1,7 +1,20 @@
 <?php
-session_start();
-$trailvid1 = $_SESSION['trailvid1'];
-echo $trailvid1;?>
+include('../dbinfo.inc.php');
+$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$id = $_GET['id'];
+$res = $conn->query('select status from tasks_completed where subject_id='.$id);
+if ($res->num_rows>0){
+    while($row=$res->fetch_assoc()){
+        $status=$row['status'];
+    }
+    if ($status=='success'){
+        header('location: ../testpass.php?id='.$id);
+    }
+    else if ($status=='failed'){
+        header('location: ../testfail.php?id='.$id);
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,6 +26,9 @@ echo $trailvid1;?>
         <link rel="stylesheet" href="../css/styles.css" />
         <style>
             body {background-image:url('../img/low_contrast_linen.png');}
+            input{color: white;}
+            .container{width:400px;margin:0 auto;}
+            .main{margin:200px;background-color:whitesmoke;}
         </style>
     </head>
     <body>
@@ -32,7 +48,7 @@ echo $trailvid1;?>
  }
  ?>
  </span>
- <form action="" method="post">
+ <form action="" method="post" name="myForm" id="form" required>
  <label>Give rating to video from Excellent to Bad</label><br />
  <input type="radio" name="rating" value="5" required>Excellent<br />
  <input type="radio" name="rating" value="4">Fair<br />
@@ -40,7 +56,7 @@ echo $trailvid1;?>
  <input type="radio" name="rating" value="2">Poor<br />
  <input type="radio" name="rating" value="1">Bad
  <br />
- <input type="submit" value="Next" />
+ <input type="submit" value="Next" name="submit" onclick="submitForm()" />
  </form>
  </div>
  </div>
@@ -61,18 +77,25 @@ echo $trailvid1;?>
         <script src="../js/jquery.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
         <script src="../js/bootstrap.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        function submitForm()
+                    {
+                        document.forms["myForm"].submit();
+                        document.forms["myForm"].reset();
+                    }
+        </script>
         <?php
 
-        if ($_POST['rating']!=''){
+        if (isset($_POST['submit'])){
 
         //send the received data to temporary_data
             $rating  = $_POST['rating'];
-            $res = $conn->query("update temporary_data set trailvid1rating="."'".$rating."'"." where subject_id="."'".$id."'");
+            $res = $conn->query("update temporary_data set vid5rating="."'".$rating."'"." where subject_id="."'".$id."'");
          //update page position 
-            $pagepos = 'trailvid1' ;
+            $pagepos = 'rating1' ;
             $res = $conn->query("update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id="."'".$id."'");
             if ($res){
-                header('location:trailvid2.php?id='.$id);
+                header('location:quest5.php?id='.$id);
             }
         }
 

@@ -18,20 +18,7 @@ session_start();
     <?php
     include("../dbinfo.inc.php");
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
     $id = $_GET['id'];
-
-   //check the page position trailvid1 position=1 and trailvid1 position=2
-   /* $sql = 'select * from tasks_completed where subject_id='.$id;
-    $res = $conn->query($sql);
-    if ($res->num_rows>0){
-        while ($row=$res->fetch_assoc()){
-            $token_no = $row['token_no'];
-        }
-    }
-    $vid_id = ($token_no)%14;
-    echo $vid_id;*/
-
     $sql2 = 'select video_name from video_storage where id=1';
     $res2 = $conn->query($sql2);
     if ($res2->num_rows>0){
@@ -41,11 +28,8 @@ session_start();
     }
     echo $vid;
     $trailvid1 = $vid;
-
     $sql3 = "update temporary_data set trailvid1="."'".$trailvid1."'"." where subject_id=".$id;
-
     $res3 = $conn->query($sql3);
-
     if ($res3){
         echo "success";
     }
@@ -55,25 +39,7 @@ session_start();
     if ($res4){
         echo "success";
     }
-    
-
-  //  $tmp = $dbname . ".subjects";
-   // $next = $conn->query("SELECT * FROM $tmp WHERE Name='$id'")->fetch_object()->Next;
-
-    //$sql = "SELECT test_id$next FROM $tmp WHERE Name='$id'";
-
-    //$test_id = $conn->query($sql)->fetch_row();
-
-    //$sql2 = "SELECT * FROM " . $dbname . ".results WHERE Test_id='$test_id[0]'";
-
-    //$vid = $conn->query($sql2)->fetch_object()->Vid1;
-
-    //mysqli_close($conn);
-
-
-
     ?>
-
     <div class="container">
         <br>
             <div class="col-md-4">
@@ -81,7 +47,7 @@ session_start();
             </div>
 
             <div class="btn-group btn-group-lg col-md-7">
-                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px" onclick="vidplay();">Play</button>
+                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px;visibility:hidden" onclick="vidplay();">Play</button>
                 <button type="button" class="btn btn-primary" id="next" style="width:150px;height:50px;visibility:hidden">Continue</button>
             </div> 
             <div class="col-md-1">
@@ -110,9 +76,10 @@ session_start();
             $(window).load(function() {
 
                 $("#Video1").bind('ended', function() {
-                    $('#next').css("visibility", "visible");
-                    $('#play').text("Play again");
-                    $('#Video1').css("visibility", "hidden");
+                    
+                    
+                    
+                    window.location.href="form1.php?id=<?php echo $id ?>";
                 });
             });
 

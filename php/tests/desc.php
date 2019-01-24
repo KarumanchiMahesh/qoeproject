@@ -1,3 +1,31 @@
+<?php
+include('../dbinfo.inc.php');
+$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$id = $_GET['id'];
+
+{
+    //load the first location
+    $res = $conn->query("select token_no from tasks_completed where subject_id=".$id);
+    if ($res->num_rows>0){
+        while($row=$res->fetch_assoc()){
+            $token_no = $row['token_no'];
+        }
+    }
+    $res = $conn->query("select * from video_randomiser where id=".$token_no);
+    if ($res->num_rows>0){
+        while($row=$res->fetch_assoc()){
+            $loc = $row['loc1'];
+        }
+    }
+
+    $loc = $loc.'.php?id='.$id;
+    
+    //update user status
+    $res = $conn->query("insert into user_status (subject_id,count) values ('$id',1)");
+    
+    
+}
+?>
 <!DOCTYPE html>
 <?php include("../dbinfo.inc.php"); ?>
 <html lang="fr">
@@ -9,9 +37,26 @@
         <meta charset="UTF-8" />
         <meta http-equiv="content-language" content="fr" />
         <title>Instruction page</title>
+        <style>
+            .block {
+                 display: block;
+                    width: 100%;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+            }
 
-    </script>
-</head>
+            .block:hover {
+            background-color: #ddd;
+            color: black;
+            }
+        </style>
+    </head>
 <body>
     <div class="container">
 
@@ -21,51 +66,15 @@
             </div>
         </div>
         </br>
+        
         <div class="row">
 
-            <div class="btn-group" align="center">
-                <h2 id="screentest"> Step 1. Screen test </h2>
-            </div>
-            <div></br></div>
-
-            <div  style="border:1px solid;border-radius:10px;">
-                </br>
-                <P class='lead'>The screen test will help us to identify the visibility and sharpness of your Screen.</P>
-                <ul>
-                    <li> <P class='lead'  >In the first part, you are asked to find the highest and smallest number visible on the white screen as shown in fig. 1 and click on the table provided.</P></li>
-                    <li> <P class='lead' >In the second part, you are asked to click on the visible stars on the black background as shown in fig. 2.</P></li>
-                    <li> <P class='lead' > Please complete both parts and submit your results before proceeding.</P></li>
-                </ul>
-                <div align="center"  >
-                    <img src="Images/screentestfig.jpg"  alt="screentest 1" >
-                </div>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="btn-group" align="center" >
-                <h2 id="survey">Step 2. Survey</h2>
-            </div>
-            <div></br></div>
-            <div  style="border:1px solid;border-radius:10px;">
-                </br>
-                <ul>
-                    <li> <P class='lead' >In the survey, you choose the answers that fit your conditions.</P></li>
-                    <li> <P class='lead' >You need to answer all questions before you can begin the test.</P></li>
-                    <li> <P class='lead' >You might need to wait for the videos to load.</P></li>
-                    <li> <P class='lead' >When the start button appears click it to start the test.</P></li>
-                </ul>
-                <div align="center">
-                    <img src="Images/loading.jpg"  alt="icon 1">
-                </div>
-                </br>
-
-            </div>
+            
 
             <div class="row">
 
                 <div class="btn-group"  align="center">
-                    <h2 id="videotest">Step 3. Video test</h2>
+                    <h2 id="videotest">Video test</h2>
                 </div>
                 <div></br></div>
                 <div  style="border:1px solid;border-radius:10px;">
@@ -78,7 +87,7 @@
                         <li> <P class='lead' >When the Next button appears, click it to continue the task.</P></li>
                     </ul>
                     <div align="center">
-                        <img src="Images/video_test.jpg" style="border:1px; black" alt="icon 1">
+                        <img src="../instruction/Images/video_test.jpg" style="border:1px; black" alt="icon 1">
                     </div>
                     </br>
 
@@ -88,7 +97,7 @@
             <div class="row">
 
                 <div class="btn-group" align="center">
-                    <h2 id="endpage">Step 4. End page</h2>
+                    <h2 id="endpage">End page</h2>
                 </div>
                 <div></br></div>
                 <div  style="border:1px solid;border-radius:10px;">
@@ -109,9 +118,17 @@
                 </font>
 
             </div>
-        </div>
+            
+        
+            
+</div>
+<button  class= "block" onclick="window.location.href='<?php echo $loc;?>'">I'm ready to start the test</button>
 
 
 </body>
 </html>
+
+
+
+
 
