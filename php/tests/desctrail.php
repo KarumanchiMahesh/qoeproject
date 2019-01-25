@@ -90,9 +90,9 @@ if ($res->num_rows>0){
                 <div></br></div>
                 <div  style="border:1px solid;border-radius:10px;">
                     </br>
-                    
-                         <P class='lead' >In this you will be given two videos of different qualities to watch.</P>
-                         <P class='lead' >For each video rate the video from <b><font size="4">Excellent</font></b> to <b><font size="4">Bad</font></b> based on it's quality. The videos may be freezing or of low visual quality as shown in figure below.</P>
+                    <ul>
+                         <li><P class='lead' >In this you will be given two videos of different qualities to watch.</P></li>
+                         <li><P class='lead' >For each video rate the video from <b><font size="4">Excellent</font></b> to <b><font size="4">Bad</font></b> based on it's quality. The videos may be freezing or of low visual quality as shown in figure below.</P></li>
                          <div align="center">
                             <img src="../instruction/Images/video_test.jpg" style="border:1px; black" alt="icon 1">
                         </div>
