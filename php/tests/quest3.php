@@ -2,25 +2,6 @@
 include('../dbinfo.inc.php');
 $conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 $id = $_GET['id'];
-$res = $conn->query("select * from tasks_completed where subject_id=".$id);
- if ($res->num_rows>0){
-    while($row=$res->fetch_assoc()){
-        $count = $row['count'];
-        $token_no = $row['token_no'];
-    }
-}
-//load the question 
-$res = $conn->query("select * from video_storage where id=3");
-if ($res->num_rows>0){
-    while($row=$res->fetch_assoc()){
-        $question = $row['question'];
-        $option1 = $row['option1'];
-        $option2 = $row['option2'];
-        $option3 = $row['option3'];
-        $correct = $row['correct'];
-    }
-}
-
 $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 if ($res->num_rows>0){
     while($row=$res->fetch_assoc()){
@@ -33,6 +14,32 @@ if ($res->num_rows>0){
         header('location: ../testfail.php?id='.$id);
     }
 }
+$res = $conn->query("select * from tasks_completed where subject_id=".$id);
+ if ($res->num_rows>0){
+    while($row=$res->fetch_assoc()){
+        $count = $row['count'];
+        $token_no = $row['token_no'];
+    }
+}
+if ($token_no%14==0){
+    $vid_id=14;
+}
+else{
+    $vid_id=($token_no)%14;
+}
+//load the question 
+$res = $conn->query("select * from video_storage where id=".$vid_id);
+if ($res->num_rows>0){
+    while($row=$res->fetch_assoc()){
+        $question = $row['question'];
+        $option1 = $row['option1'];
+        $option2 = $row['option2'];
+        $option3 = $row['option3'];
+        $correct = $row['correct'];
+    }
+}
+
+
 
 ?>
 

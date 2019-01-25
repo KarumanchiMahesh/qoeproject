@@ -1,5 +1,19 @@
 <?php
-session_start();
+include('../dbinfo.inc.php');
+$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$id = $_GET['id'];
+$res = $conn->query('select status from tasks_completed where subject_id='.$id);
+    if ($res->num_rows>0){
+        while($row=$res->fetch_assoc()){
+            $status=$row['status'];
+    }
+    if ($status=='success'){
+        header('location: ../testpass.php?id='.$id);
+    }
+    else if ($status=='failed'){
+        header('location: ../testfail.php?id='.$id);
+    }
+    }
 ?>
 <!DOCTYPE html>
 <head>
@@ -17,18 +31,7 @@ session_start();
     include("../dbinfo.inc.php");
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
     $id = $_GET['id'];
-    $res = $conn->query('select status from tasks_completed where subject_id='.$id);
-        if ($res->num_rows>0){
-            while($row=$res->fetch_assoc()){
-                $status=$row['status'];
-            }
-            if ($status=='success'){
-                header('location: ../testpass.php?id='.$id);
-            }
-            else if ($status=='failed'){
-                header('location: ../testfail.php?id='.$id);
-            }
-        }
+    
     $res = $conn->query('select token_no from tasks_completed where subject_id='.$id);
     if ($res->num_rows>0){
         while ($row = $res->fetch_assoc()){
@@ -41,8 +44,8 @@ session_start();
     else{
         $vid_id=($token_no)%14;
     }
-    echo $token_no;  
-    $res = $conn->query('select video_name from video_storage where id=3');
+    
+    $res = $conn->query('select video_name from video_storage where id='.$vid_id);
     if ($res->num_rows>0){
         while ($row = $res->fetch_assoc()){
             $vid = $row['video_name'];

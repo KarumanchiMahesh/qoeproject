@@ -1,7 +1,20 @@
 <?php
-session_start();
-$trailvid1 = $_SESSION['trailvid1'];
-echo $trailvid1;?>
+include('../dbinfo.inc.php');
+$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$id = $_GET['id'];
+$res = $conn->query('select status from tasks_completed where subject_id='.$id);
+    if ($res->num_rows>0){
+        while($row=$res->fetch_assoc()){
+            $status=$row['status'];
+    }
+    if ($status=='success'){
+        header('location: ../testpass.php?id='.$id);
+    }
+    else if ($status=='failed'){
+        header('location: ../testfail.php?id='.$id);
+    }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,6 +26,9 @@ echo $trailvid1;?>
         <link rel="stylesheet" href="../css/styles.css" />
         <style>
             body {background-image:url('../img/low_contrast_linen.png');}
+            input{color: white;}
+            .container{width:400px;margin:0 auto;}
+            .main{margin:200px;background-color:whitesmoke;}
         </style>
     </head>
     <body>

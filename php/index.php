@@ -15,13 +15,16 @@ $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 $id = $_GET['id'];
 //check if worker already completed the test
 
-$res = $conn->query("select status from user_status where subject_id=".$id);
+$res = $conn->query('select status from tasks_completed where subject_id='.$id);
 if ($res->num_rows>0){
     while($row=$res->fetch_assoc()){
         $status=$row['status'];
-        if ($status=='completed'){
-            header("location: ends/end.php?id=".$id);
-        }
+    }
+    if ($status=='success'){
+        header('location: ../testpass.php?id='.$id);
+    }
+    else if ($status=='failed'){
+        header('location: ../testfail.php?id='.$id);
     }
 }
 
@@ -55,12 +58,7 @@ $res = $conn->query($sql);
 
 $sql = "insert into temporary_data (subject_id) values ('$id')";
 $res = $conn->query($sql);
-if ($res){
-    echo "success";
-}
-else{
-    echo "failed";
-}
+
 
 }
 
@@ -813,7 +811,7 @@ else{
             // No stars selected
             for (k = 1; k < 9; k++) {
                 starSum = Stars[k]+starSum;
-                alert(Stars[k]);
+                
                 
             }
             score = starSum;
@@ -830,6 +828,7 @@ else{
 
             // Invisble star selected
             score += 3 * Stars[8];
+            
             // Inconsistent none-answer
             if ((Lowest == "none" && Highest != "none") || (Highest == "none" && Lowest != "none"))
                 score += 3;
@@ -851,8 +850,8 @@ else{
             if (ClickNum > 1) {
                 score += 1;
                 if (ClickNum > 3)
-                    score += 3;
-                    alert('at clicknum'+score);
+                    score += 2;
+                    
             }
             if (Lowest != 1){
                 score+=5;
@@ -860,7 +859,7 @@ else{
             if (Highest != 5){
                 score+=5;
             }
-            alert(score);
+            
             return score;
         }
 

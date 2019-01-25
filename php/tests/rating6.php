@@ -38,6 +38,8 @@ $res = $conn->query("select * from tasks_completed where subject_id=".$id);
         <style>
             body {background-image:url('../img/low_contrast_linen.png');}
             input{color: white;}
+            .container{width:400px;margin:0 auto;}
+            .main{margin:200px;background-color:whitesmoke;}
         </style>
     </head>
     <body>
@@ -45,8 +47,8 @@ $res = $conn->query("select * from tasks_completed where subject_id=".$id);
             <br/>	
             <button  type="button" id ="Instruction" class="btn btn-warning" style="margin-right: 100px;width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>
         </div>
-<div class="container" style="width:400 px; margin: 0 auto;">
- <div class="main" style="margin:200px; background: white;">
+<div class="container" style="width:600 px; margin: 0 auto;">
+ <div class="main" style="width:500px; margin:50 auto;">
  <h2>Rating</h2>
  <span id="error">
  <!---- Initializing Session for errors --->
