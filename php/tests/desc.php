@@ -21,14 +21,17 @@ if ($res->num_rows>0){
     if ($res->num_rows>0){
         while($row=$res->fetch_assoc()){
             $token_no = $row['token_no'];
+    
         }
     }
+    echo $token_no;
     $res = $conn->query("select * from video_randomiser where id=".$token_no);
     if ($res->num_rows>0){
         while($row=$res->fetch_assoc()){
             $loc = $row['loc1'];
         }
     }
+    echo $loc;
     $loc = $loc.'.php?id='.$id;
     
     

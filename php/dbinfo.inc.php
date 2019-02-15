@@ -1,7 +1,7 @@
 <?php
 $dbhost = 'localhost';
 $dbuser = 'mahesh';
-$dbpass = 'mahesh1@';
+$dbpass = 'tMbwc8K9qo';
 $dbname = 'users_quality';
-$feedbackURL = 'http://www.google.com';
+$feedbackURL = 'https://goo.gl/forms/HQFwGCNB4i3U44my1';
 ?>

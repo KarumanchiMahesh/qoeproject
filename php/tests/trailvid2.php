@@ -31,7 +31,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     include("../dbinfo.inc.php");
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
     $id = $_GET['id'];
-    $sql2 = 'select video_name from video_storage where id=87';
+    $sql2 = 'select video_name from video_storage where id=89';
     $res2 = $conn->query($sql2);
     if ($res2->num_rows>0){
         while ($row = $res2->fetch_assoc()){
@@ -58,7 +58,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
         <br/>
         <br/>
         <div class="text-center">
-        <video width="1280" height="720" id="Video1" autoplay><source src="<?php echo '../vids/'.$vid.'.mp4';?>" type="video/mp4">Your browser does not support the video playback.</video>
+        <video width="1280" height="720" id="Video1" autoplay><source src="<?php echo '../vids/'.$vid;?>" type="video/mp4">Your browser does not support the video playback.</video>
             <?php echo "<div><p>video played=test2</p></div>";?>    
         </div>
     <script src="../js/jquery.js"></script>

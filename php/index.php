@@ -771,7 +771,7 @@ $res = $conn->query($sql);
                     stars[$(this).val()] = 0;
                 });
                 var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);    
-                if (score > 5) {
+                if (score > 8) {
                     window.location.href = "errors/screentestfail.php";
                 }
                 else{
@@ -853,11 +853,11 @@ $res = $conn->query($sql);
                     score += 2;
                     
             }
-            if (Lowest != 1){
-                score+=5;
+            if (Lowest >= 1 && Lowest <=3){
+                score+=8;
             }
-            if (Highest != 5){
-                score+=5;
+            if (Highest <= 5){
+                score+=8;
             }
             
             return score;

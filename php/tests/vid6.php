@@ -18,7 +18,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 <!DOCTYPE html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Test Video 2</title>
+    <title>Test Video </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <style>
@@ -44,6 +44,8 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     else{
         $vid_id=($token_no)%14;
     }
+    $vid_id=$vid_id+70;
+    echo $token_no;
  
     $res = $conn->query('select video_name from video_storage where id='.$vid_id);
     if ($res->num_rows>0){
@@ -58,7 +60,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     <div class="container">
         <br>
             <div class="col-md-4">
-                <font color="white" class="h1">Test Video 2</font>
+                <font color="white" class="h1">Test Video </font>
             </div>
 
             <div class="btn-group btn-group-lg col-md-7">

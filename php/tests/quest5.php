@@ -24,10 +24,12 @@ $res = $conn->query("select * from tasks_completed where subject_id=".$id);
 }
 if ($token_no%14==0){
     $vid_id=14;
-}
-else{
-    $vid_id=($token_no)%14;
-}
+    }
+    else{
+        $vid_id=($token_no)%14;
+    }
+    $vid_id=$vid_id+56;
+    echo $token_no;
 //load the question 
 $res = $conn->query("select * from video_storage where id=".$vid_id);
 if ($res->num_rows>0){
@@ -81,9 +83,9 @@ if ($res->num_rows>0){
  </span>
  <form action="" name = "myForm" id="form" method="post" required>
  <label><?php echo $question;?></label><br />
- <input type="radio" name="answer" value="3" required><?php echo $option1;?><br />
+ <input type="radio" name="answer" value="1" required><?php echo $option1;?><br />
  <input type="radio" name="answer" value="2"><?php echo $option2;?><br />
- <input type = "radio" name="answer" value="1"><?php echo $option3;?><br />
+ <input type = "radio" name="answer" value="3"><?php echo $option3;?><br />
  <br />
  <input type="submit" value="Next" name="submit" onclick = "submitForm()" />
  </form>
