@@ -1,0 +1,44 @@
+Looking for git in: git
+Using git 2.19.1 from git
+> git rev-parse --show-toplevel
+> git config --get commit.template
+Open repository: /var/www/html/qoeproject
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse issue9
+> git rev-parse --symbolic-full-name issue9@{u}
+fatal: no upstream configured for branch 'issue9'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :php/tests/form2.php
+> git check-ignore -z --stdin
+> git show :php/tests/quest1.php
+> git show :php/tests/quest3.php
+> git show :php/tests/rating5.php
+> git show :php/tests/rating3.php
+> git show :php/tests/rating5.php
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse issue9
+> git rev-parse --symbolic-full-name issue9@{u}
+fatal: no upstream configured for branch 'issue9'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git check-ignore -z --stdin
+> git check-ignore -z --stdin
+> git check-ignore -z --stdin
+> git show :php/testpass.php
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse issue9
+> git rev-parse --symbolic-full-name issue9@{u}
+fatal: no upstream configured for branch 'issue9'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse issue9
+> git rev-parse --symbolic-full-name issue9@{u}
+fatal: no upstream configured for branch 'issue9'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose

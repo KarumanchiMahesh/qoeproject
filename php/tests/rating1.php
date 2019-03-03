@@ -1,20 +1,15 @@
-<?php
-            include("../dbinfo.inc.php");
-            $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-            $id = $_GET['id'];
-            $res = $conn->query('select status from tasks_completed where subject_id='.$id);
-            if ($res->num_rows>0){
-            while($row=$res->fetch_assoc()){
-                $status=$row['status'];
-            }
-            if ($status=='success'){
-                header('location: ../testpass.php?id='.$id);
-            }
-            else if ($status=='failed'){
-                header('location: ../testfail.php?id='.$id);
-            }
-        }
-            ?>
+<?php 
+include('../dbinfo.inc.php');
+$conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$id = $_GET['id'];
+
+$res = $conn->query("select * from tasks_completed where subject_id=".$id);
+                if ($res->num_rows>0){
+                    while($row=$res->fetch_assoc()){
+                        $count = $row['count'];
+                    }
+                }
+                ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -48,7 +43,7 @@
  }
  ?>
  </span>
- <form action="" method="post" name="myForm" id="form" required>
+ <form action="" method="POST" name="myForm" id="form" required>
  <label>Give rating to video from Excellent to Bad</label><br />
  <input type="radio" name="rating" value="5" required>Excellent<br />
  <input type="radio" name="rating" value="4">Fair<br />

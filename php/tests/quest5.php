@@ -14,7 +14,6 @@ if ($res->num_rows>0){
         header('location: ../testfail.php?id='.$id);
     }
 }
-
 $res = $conn->query("select * from tasks_completed where subject_id=".$id);
  if ($res->num_rows>0){
     while($row=$res->fetch_assoc()){
@@ -24,12 +23,11 @@ $res = $conn->query("select * from tasks_completed where subject_id=".$id);
 }
 if ($token_no%14==0){
     $vid_id=14;
-    }
-    else{
-        $vid_id=($token_no)%14;
-    }
-    $vid_id=$vid_id+56;
-    echo $token_no;
+}
+else{
+    $vid_id=($token_no)%14;
+}
+$vid_id = $vid_id + 56;
 //load the question 
 $res = $conn->query("select * from video_storage where id=".$vid_id);
 if ($res->num_rows>0){
@@ -41,7 +39,6 @@ if ($res->num_rows>0){
         $correct = $row['correct'];
     }
 }
-
 
 
 ?>
@@ -128,7 +125,7 @@ if ($res->num_rows>0){
                 $res = $conn->query("update temporary_data set ansrec5="."'".$answer."'".",question5="."'".$question."'".",correct5="."'".$correct."'"." where subject_id="."'".$id."'");
                 
              //update page position 
-                $pagepos = 'quest1' ;
+                $pagepos = 'quest5' ;
                 $res = $conn->query("update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id="."'".$id."'");
                 if ($res){
                     $res = $conn->query("select token_no,form5 from tasks_completed where subject_id=".$id);
@@ -156,12 +153,11 @@ if ($res->num_rows>0){
                             $count=6;
                         }
                         else if ($count==6){
-                            //move to end page
                             $count=7;
+                            
                         }
                         
                         $res = $conn->query("update `tasks_completed` set `count`=".$count." where subject_id=".$id);
-                        
                         if ($count==7){
                             
                             $loc = '../end';
@@ -177,14 +173,14 @@ if ($res->num_rows>0){
                         
                         //save next location,lock the count
                         $res = $conn->query("update tasks_completed set `next5`="."'".$loc."'".",`form5`="."'"."lock"."'"." where subject_id=".$id );
-                        //load next location
+                        
                         header('location: '.$loc.'.php?id='.$id);
-                       
+                        
                     }
                     else{
                         //don't count
                         //move to next location using saved location
-                        $res = $conn->query('select next5 from tasks_completed where subject_id='.$id);
+                        $res = $conn->query('select next1 from tasks_completed where subject_id='.$id);
                         if ($res->num_rows>0){
                             while($row = $res->fetch_assoc()){
                                 $next = $row['next5'];

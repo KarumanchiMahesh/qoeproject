@@ -83,7 +83,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 
         //send the received data to temporary_data
             $rating  = $_POST['rating'];
-            $res = $conn->query("update temporary_data set trailvid1rating="."'".$rating."'"." where subject_id="."'".$id."'");
+            $res = $conn->query("update temporary_data set trailvid2rating="."'".$rating."'"." where subject_id="."'".$id."'");
          //update page position 
             $pagepos = 'desc' ;
             $res = $conn->query("update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id="."'".$id."'");

@@ -53,7 +53,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
             $vid = $row['video_name'];
         }
     }
-    $res = $conn->query("update temporary_data set vid1="."'".$vid."'"." where subject_id=".$id);
+    $res = $conn->query("update temporary_data set vid4="."'".$vid."'"." where subject_id=".$id);
     $res = $conn->query("update tasks_completed set pagepos="."'"."vid4"."'"." where subject_id=".$id);
     
     ?>
@@ -64,8 +64,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
             </div>
 
             <div class="btn-group btn-group-lg col-md-7">
-                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px" onclick="vidplay();">Play</button>
-                <button type="button" class="btn btn-primary" id="next" style="width:150px;height:50px;visibility:hidden">Continue</button>
+                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px" onclick="vidplay();">Play Again</button>
             </div> 
             <div class="col-md-1">
                 <button  type="button" id ="Instruction" class="btn btn-warning" style="width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>		
@@ -89,14 +88,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
                     window.location.href = "rating4.php?id=<?php echo $id;?>";
                 });
             });
-            $('#next').on('click', function() {
-                if ($(this).attr('visibility') === 'hidden') {
-                    // do nothing
-                }
-                else {
-                            window.location.href = "rating1.php?id=<?php echo $id ?>";
-                        }
-                    });
+            
             //Disable rightclick menu for video
             $(document).ready(function() {
                 $('#Video1').bind('contextmenu', function() {
