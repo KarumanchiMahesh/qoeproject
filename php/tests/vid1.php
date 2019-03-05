@@ -1,3 +1,14 @@
+<?php 
+session_start();
+if (isset($_SESSION['views1'])){
+    $_SESSION['views1'] += 1;
+
+}
+else{
+    $_SESSION['views1'] = 1;
+}
+
+?>
 <?php
 include('../dbinfo.inc.php');
 $conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
@@ -43,7 +54,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     else{
         $vid_id=($token_no)%14;
     }
-    echo $token_no;
+    //echo $token_no;
       
     $res = $conn->query('select video_name from video_storage where id='.$vid_id);
     if ($res->num_rows>0){
@@ -63,7 +74,6 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 
             <div class="btn-group btn-group-lg col-md-7">
                 <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px" onclick="vidplay();">Play</button>
-                <button type="button" class="btn btn-primary" id="next" style="width:150px;height:50px;visibility:hidden">Continue</button>
             </div> 
             <div class="col-md-1">
                 <button  type="button" id ="Instruction" class="btn btn-warning" style="width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>		
@@ -80,21 +90,16 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     <script type="text/javascript">
             function vidplay() {
                 $('#Video1').css("visibility", "visible");
+                //$('#play').css("visibility","hidden");
                 $('#Video1').get(0).play();            
             }
             $(window).load(function() {
+                
                 $("#Video1").bind('ended', function() {
                     window.location.href = "rating1.php?id=<?php echo $id;?>";
                 });
             });
-            $('#next').on('click', function() {
-                if ($(this).attr('visibility') === 'hidden') {
-                    // do nothing
-                }
-                else {
-                            window.location.href = "rating1.php?id=<?php echo $id ?>";
-                        }
-                    });
+            
             //Disable rightclick menu for video
             $(document).ready(function() {
                 $('#Video1').bind('contextmenu', function() {
@@ -106,7 +111,8 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
                 $('#Video1').get(0).pause();
                 $('#Video1').css("visibility", "hidden");
                 $('#play').css("visibility","visible");
-                $('#play').css("text","play again");
+                $('#play').css("text","Play");
             });
     </script>
 </body>
+</html>

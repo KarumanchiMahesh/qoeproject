@@ -23,12 +23,11 @@ $res = $conn->query("select * from tasks_completed where subject_id=".$id);
 }
 if ($token_no%14==0){
     $vid_id=14;
-    }
-    else{
-        $vid_id=($token_no)%14;
-    }
-    $vid_id=$vid_id+28;
-    echo $token_no;
+}
+else{
+    $vid_id=($token_no)%14;
+}
+$vid_id = $vid_id+28;
 //load the question 
 $res = $conn->query("select * from video_storage where id=".$vid_id);
 if ($res->num_rows>0){
@@ -40,7 +39,6 @@ if ($res->num_rows>0){
         $correct = $row['correct'];
     }
 }
-
 
 
 ?>
@@ -127,7 +125,7 @@ if ($res->num_rows>0){
                 $res = $conn->query("update temporary_data set ansrec3="."'".$answer."'".",question3="."'".$question."'".",correct3="."'".$correct."'"." where subject_id="."'".$id."'");
                 
              //update page position 
-                $pagepos = 'quest3' ;
+                $pagepos = 'quest1' ;
                 $res = $conn->query("update tasks_completed set pagepos="."'".$pagepos."'"." where subject_id="."'".$id."'");
                 if ($res){
                     $res = $conn->query("select token_no,form3 from tasks_completed where subject_id=".$id);
@@ -171,8 +169,8 @@ if ($res->num_rows>0){
                             while($row=$res->fetch_assoc()){
                                 $loc = $row[$location];
                             }
-                        }
-                    }
+                        }}
+                        
                         //save next location,lock the count
                         $res = $conn->query("update tasks_completed set `next3`="."'".$loc."'".",`form3`="."'"."lock"."'"." where subject_id=".$id );
                         

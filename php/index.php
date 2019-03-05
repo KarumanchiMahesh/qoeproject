@@ -1,6 +1,5 @@
 <?php
 ob_start();
-
 // No Worker-id
 if (empty($_GET['id'])) {
     while (ob_get_status()) {
@@ -9,12 +8,17 @@ if (empty($_GET['id'])) {
     header("Location: errors/noid.php");
     exit();
 }
-
 include('dbinfo.inc.php');
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+if (!$conn){
+   # echo "connection not success";
+}
+else{
+    #echo "connection success";
+}
 $id = $_GET['id'];
-//check if worker already completed the test
 
+//check if worker already completed the test
 $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 if ($res->num_rows>0){
     while($row=$res->fetch_assoc()){
@@ -27,10 +31,8 @@ if ($res->num_rows>0){
         header('location: ../testfail.php?id='.$id);
     }
 }
-
 //check if worker lost his connection
 $sql = "select * from tasks_completed where subject_id=".$id;
-
 $res = $conn->query($sql);
 if ($res->num_rows>0){
     while($row=$res->fetch_assoc()){
@@ -43,25 +45,22 @@ if ($res->num_rows>0){
     else{
         header('location:reconnect.php?id='.$id);
     }
-
 }
 else
 {
 //new entry
 //update tasks_completed table 
-
 $sql = "insert into tasks_completed (subject_id) values ('$id')";
-
 $res = $conn->query($sql);
-
-
-
+if ($res){
+    #echo "successful insertion of data into taskscompleted";
+}
 $sql = "insert into temporary_data (subject_id) values ('$id')";
 $res = $conn->query($sql);
-
-
+if ($res){
+    #echo "successful insertion of data into temporrary data";
 }
-
+}
 // Check if worker already exist
 ?>
 
@@ -745,18 +744,15 @@ $res = $conn->query($sql);
                 $("#Video2").get(0).playbackRate = 16;
                 loop(0);
             }
-
         });
-
         $('.dropdown-toggle').dropdown();
-
         // Screentest submit
         $("#frmscreenTestForm-submit").click(function(e) {
             e.preventDefault();
             end = new Date().getTime();
             finalTime = end - start;
             clickCounter_string = JSON.stringify(clickCounter);
-            stars = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+            stars = [1, 1, 1, 1, 1, 1, 1, 1, 1];//9 stars
             if ($('#smallestVisible input[type=radio]:checked').length < 1) {
                 $('#smallestVisible').addClass('checkbox-error');
                 alert('Please select smallest visible number');
@@ -771,21 +767,18 @@ $res = $conn->query($sql);
                     stars[$(this).val()] = 0;
                 });
                 var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);    
-                if (score > 8) {
+                if (score < 0) {
+                    alert(score)
                     window.location.href = "errors/screentestfail.php";
                 }
                 else{
                     $('#screentest').toggle(1,"swing",screentestDone());
                 }
-
             }
-
         });
-
         // Start button
         $("#start").click(function() {
             
-
             if ($('#screentestDone').css('display') == 'none') {
                 alert("Please complete the screen test.");
                 return false;
@@ -801,10 +794,8 @@ $res = $conn->query($sql);
             else {
                 //do nothing
             
-
             }
         });
-
         function screentestScore(Lowest, Highest, Stars, Time, ClickNum) {
             var score = 0;
             var starSum = 0;
@@ -814,62 +805,51 @@ $res = $conn->query($sql);
                 
                 
             }
+            alert(Stars)
             score = starSum;
-
-            if (starSum == 0)
-                score += 1;
-            // Selected stars are not consecutive
-            for (k = 1; k < 7; k++) {
-                if (Stars[k] < Stars[k + 1]) {
-                    score += 2;
-                    break;
-                }
-            }
-
-            // Invisble star selected
-            score += 3 * Stars[8];
+            alert(score)
+            if (starSum == 9)
+                score -= 1;
             
             // Inconsistent none-answer
             if ((Lowest == "none" && Highest != "none") || (Highest == "none" && Lowest != "none"))
-                score += 3;
+                score -= 3;
             // Lowest outside interval    
             if (Lowest != "none")
                 if ((Lowest < 0) || (Lowest > 7))
-                    score += 3;
+                    score -= 3;
             // Highest outside interval
             if (Highest != "none")
                 if ((Highest < 0) || (Highest > 7))
-                    score += 3;
+                    score -= 3;
             // Lowest and Highest inconsistent
             if (Highest < Lowest)
-                score += 1;
+                score -= 1;
             // Low time on page
             if (Time < 6000)
-                score += 1;
+                score -= 1;
             // Clicks on background            
             if (ClickNum > 1) {
-                score += 1;
+                alert(score)
+                score -= 1;
                 if (ClickNum > 3)
-                    score += 2;
+                    alert('clickNum')
+                    score -= 2;
                     
             }
-            if (Lowest >= 1 && Lowest <=3){
-                score+=8;
+            if (Lowest >= 5){
+                score -= 8;
             }
-            if (Highest <= 5){
-                score+=8;
+            if (Highest < 5){
+                score -= 8;
             }
             
             return score;
         }
-
         function screentestDone() {
             $('#screentestDone').toggle();
         }
-
-
       
-
     </script> 
    
 
@@ -881,16 +861,24 @@ $res = $conn->query($sql);
         $hours = $_POST['Hours'];
         $mothertongue = $_POST['mothertongue'];
         $country = $_POST['country'];
-        echo $country;
+     #   echo $country;
+      #  echo $id;
         if ($gender!=''&&$age!=''&&$environment!=''){
-            $res = $conn->query("update `temporary_data` set `age`="."'".$age."'".",gender="."'".$gender."'".",environment="."'".$environment."'".",hours="."'".$hours."'".",mothertongue="."'".$mothertongue."'".",country="."'".$country."'"." where subject_id=".$id);
+            $sql = "update `temporary_data` set `age`="."'".$age."'"." where subject_id=".$id;
+       #     echo $sql;
+            $res = $conn->query("update temporary_data set age="."'".$age."'".",gender="."'".$gender."'".",hours="."'".$hours."'".",mothertongue="."'".$mothertongue."'".",environment="."'".$environment."'".",country="."'".$country."'"." where subject_id=".$id);
             if ($res){
                 //update nextpage position
-                $res = $conn->query("update `tasks_completed` set pagepos="."'"."desctrail"."'"." where subject_id=".$id);
-                header("location: tests/desctrail.php?id=".$id);
-            }
+                $res = $conn->query("update tasks_completed set pagepos="."'"."desctrail"."'"." where subject_id=".$id);
+                if ($res){
+                    header("location: tests/desctrail.php?id=".$id);
+                }
+                else{
+        #            echo "Not Updated page position";
+                }
+                }
             else{
-                echo "not updated";
+         #       echo "not updated";
             }
         }
         

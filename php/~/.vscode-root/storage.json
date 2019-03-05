@@ -1,0 +1,32 @@
+{
+    "telemetry.machineId": "e8855c8eb32ea0b7b92cf62339ef0782b8b4f592242fd0e937ec31aaeb1c23a4",
+    "theme": "vs-dark",
+    "themeBackground": "#1e1e1e",
+    "pickerWorkingDir": "/var/www/html/qoeproject",
+    "openedPathsList": {
+        "workspaces2": [
+            "file:///var/www/html/qoeproject/php"
+        ],
+        "files2": []
+    },
+    "windowsState": {
+        "openedWindows": [],
+        "lastActiveWindow": {
+            "folderUri": {
+                "$mid": 1,
+                "fsPath": "/var/www/html/qoeproject/php",
+                "external": "file:///var/www/html/qoeproject/php",
+                "path": "/var/www/html/qoeproject/php",
+                "scheme": "file"
+            },
+            "backupPath": "/var/www/html/qoeproject/php/~/.vscode-root/Backups/154d7f806d334665e66593a16454582f",
+            "uiState": {
+                "mode": 1,
+                "x": 524,
+                "y": 165,
+                "width": 1024,
+                "height": 768
+            }
+        }
+    }
+}

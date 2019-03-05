@@ -32,7 +32,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     include("../dbinfo.inc.php");
     $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
     $id = $_GET['id'];
-    $sql2 = 'select video_name from video_storage where id=88';
+    $sql2 = 'select video_name from video_storage where id=3';
     $res2 = $conn->query($sql2);
     if ($res2->num_rows>0){
         while ($row = $res2->fetch_assoc()){
@@ -52,6 +52,15 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     if ($res4){
         echo "success";
     }
+    $res = $conn->query("select trailvid1count from temporary_data where subject_id=".$id);
+    if ($res->num_rows>0){
+        while ($row=$res->fetch_assoc()){
+            $playcount = $row['trailvid1count'];
+        }
+    }
+    echo $playcount;
+    $playcount += 1;
+    $res = $conn->query("update temporary_data set trailvid1count="."'".$playcount."'"." where subject_id=".$id);
     ?>
     <div class="container">
         <br>
@@ -60,8 +69,8 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
             </div>
 
             <div class="btn-group btn-group-lg col-md-7">
-                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px;visibility:hidden" onclick="vidplay();">Play</button>
-                <button type="button" class="btn btn-primary" id="next" style="width:150px;height:50px;visibility:hidden">Continue</button>
+                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px;" onclick="vidplay();">Play Again</button>
+                
             </div> 
             <div class="col-md-1">
                 <button  type="button" id ="Instruction" class="btn btn-warning" style="width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>		
@@ -83,6 +92,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 
             function vidplay() {
                 $('#Video1').css("visibility", "visible");
+                //$('#play').css("visibility","hidden");
                 $('#Video1').get(0).play();            
             }
 
@@ -95,21 +105,6 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
                     window.location.href="form1.php?id=<?php echo $id ?>";
                 });
             });
-
-            $('#next').on('click', function() {
-                if ($(this).attr('visibility') === 'hidden') {
-                    // do nothing
-                }
-                else {
-                            
-
-
-
-                            
-                            window.location.href = "form1.php?id=<?php echo $id ?>";
-                        }
-                    });
-
                 
         
 
@@ -124,6 +119,8 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
             $(window).blur(function() {
                 $('#Video1').get(0).pause();
                 $('#Video1').css("visibility", "hidden");
+                $('#play').css("visibility","visible");
+                $('#play').css("text","play again");
             });
 
     </script>
