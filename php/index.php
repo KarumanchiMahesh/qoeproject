@@ -1,5 +1,3 @@
-
-  
 <?php
 ob_start();
 // No Worker-id
@@ -12,7 +10,14 @@ if (empty($_GET['id'])) {
 }
 include('dbinfo.inc.php');
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+if (!$conn){
+   # echo "connection not success";
+}
+else{
+    #echo "connection success";
+}
 $id = $_GET['id'];
+
 //check if worker already completed the test
 $res = $conn->query('select status from tasks_completed where subject_id='.$id);
 if ($res->num_rows>0){
@@ -47,8 +52,14 @@ else
 //update tasks_completed table 
 $sql = "insert into tasks_completed (subject_id) values ('$id')";
 $res = $conn->query($sql);
+if ($res){
+    #echo "successful insertion of data into taskscompleted";
+}
 $sql = "insert into temporary_data (subject_id) values ('$id')";
 $res = $conn->query($sql);
+if ($res){
+    #echo "successful insertion of data into temporrary data";
+}
 }
 // Check if worker already exist
 ?>
@@ -757,7 +768,7 @@ $res = $conn->query($sql);
                 });
                 var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);    
                 if (score < 0) {
-                    
+                    alert(score)
                     window.location.href = "errors/screentestfail.php";
                 }
                 else{
@@ -794,18 +805,11 @@ $res = $conn->query($sql);
                 
                 
             }
+            alert(Stars)
             score = starSum;
-            
+            alert(score)
             if (starSum == 9)
                 score -= 1;
-            // Selected stars are not consecutive
-            for (k = 1; k < 9; k++) {
-                if (Stars[k] < Stars[k + 1]) {
-                    score -= 2;
-                    break;
-                }
-            }
-            
             
             // Inconsistent none-answer
             if ((Lowest == "none" && Highest != "none") || (Highest == "none" && Lowest != "none"))
@@ -826,8 +830,10 @@ $res = $conn->query($sql);
                 score -= 1;
             // Clicks on background            
             if (ClickNum > 1) {
+                alert(score)
                 score -= 1;
                 if (ClickNum > 3)
+                    alert('clickNum')
                     score -= 2;
                     
             }
@@ -855,16 +861,24 @@ $res = $conn->query($sql);
         $hours = $_POST['Hours'];
         $mothertongue = $_POST['mothertongue'];
         $country = $_POST['country'];
-        echo $country;
+     #   echo $country;
+      #  echo $id;
         if ($gender!=''&&$age!=''&&$environment!=''){
-            $res = $conn->query("update `temporary_data` set `age`="."'".$age."'".",gender="."'".$gender."'".",environment="."'".$environment."'".",hours="."'".$hours."'".",mothertongue="."'".$mothertongue."'".",country="."'".$country."'"." where subject_id=".$id);
+            $sql = "update `temporary_data` set `age`="."'".$age."'"." where subject_id=".$id;
+       #     echo $sql;
+            $res = $conn->query("update temporary_data set age="."'".$age."'".",gender="."'".$gender."'".",hours="."'".$hours."'".",mothertongue="."'".$mothertongue."'".",environment="."'".$environment."'".",country="."'".$country."'"." where subject_id=".$id);
             if ($res){
                 //update nextpage position
-                $res = $conn->query("update `tasks_completed` set pagepos="."'"."desctrail"."'"." where subject_id=".$id);
-                header("location: tests/desctrail.php?id=".$id);
-            }
+                $res = $conn->query("update tasks_completed set pagepos="."'"."desctrail"."'"." where subject_id=".$id);
+                if ($res){
+                    header("location: tests/desctrail.php?id=".$id);
+                }
+                else{
+        #            echo "Not Updated page position";
+                }
+                }
             else{
-                echo "not updated";
+         #       echo "not updated";
             }
         }
         

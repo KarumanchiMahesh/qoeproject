@@ -1,6 +1,6 @@
 <?php
-session_start();
-$_SESSION['status']='testpass';
+
+
 ?>
 <!DOCTYPE html>
 <html>

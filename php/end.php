@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("dbinfo.inc.php");
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
@@ -29,8 +30,20 @@ if ($res->num_rows>0){
     }
     if ($count>1){
         //update status
+        $vid1count=$_SESSION['views1'];
+        $vid2count = $_SESSION['views2'];
+        $vid3count = $_SESSION['views3'];
+        $vid4count = $_SESSION['views4'];
+        $vid5count = $_SESSION['views5'];
+        $vid6count = $_SESSION['views6'];
+        
+        
         $res = $conn->query('update `tasks_completed` set `status`='."'"."success"."'"." where subject_id=".$id);
+        $res = $conn->query('update `temporary_data` set `vid1count`='."'".$vid1count."'".", vid2count=".$vid2count.",vid3count=".$vid3count.",vid4count=".$vid4count.",vid5count=".$vid5count.",vid6count=".$vid6count." where subject_id=".$id);
+        session_destroy();
+        $res = $conn->query('insert into results select * from temporary_data where subject_id='.$id);
         header('location: testpass.php?id='.$id);
+
         
     }
     else if ($count<2){
@@ -38,6 +51,7 @@ if ($res->num_rows>0){
         $res = $conn->query('update `tasks_completed` set `status`='."'"."failed"."'"." where subject_id=".$id);
         header('location:testfail.php?id='.$id);
     }
+
 }    
 else{//check if user exists or not
 

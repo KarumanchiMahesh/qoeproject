@@ -24,14 +24,14 @@ if ($res->num_rows>0){
     
         }
     }
-    echo $token_no;
+    
     $res = $conn->query("select * from video_randomiser where id=".$token_no);
     if ($res->num_rows>0){
         while($row=$res->fetch_assoc()){
             $loc = $row['loc1'];
         }
     }
-    echo $loc;
+    
     $loc = $loc.'.php?id='.$id;
     
     
@@ -90,7 +90,7 @@ if ($res->num_rows>0){
                 <div></br></div>
                 <div  style="border:1px solid;border-radius:10px;">
                     </br>
-                    <P class='lead'>In the video tests, 6 random videos will be presented to you. The videos contain different degradations such as <b><font size="4"> Freezing events and Low visual quality</font>as shown in fig 4.</b></P>
+                    <P class='lead'>In the video tests, 6 random videos will be presented to you. The videos contain different degradations such as <b><font size="4"> Freezing events and Low visual quality</font></b> as shown in fig 4.</P>
                     <ul>
                         <li> <P class='lead' >After watching a video you can rate the video. You should base your rating on your perception of the videos and not on the content of the videos.</P></li>
                         <li> <P class='lead' > In some tests you will also be asked a question about the videos you just watched, e.g. what was the color of the jacket that the girl wore in the video ?. It is necessary to answer most of the questions correctly for the payment.</P></li>

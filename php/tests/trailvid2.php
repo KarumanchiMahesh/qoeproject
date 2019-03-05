@@ -48,7 +48,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
             </div>
 
             <div class="btn-group btn-group-lg col-md-7">
-                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px;visibility:hidden" onclick="vidplay();">Play Again</button>
+                <button type="button" id ="play" class="btn btn-primary" style="width:150px;height:50px;" onclick="vidplay();">Play Again</button>
             </div> 
             <div class="col-md-1">
                 <button  type="button" id ="Instruction" class="btn btn-warning" style="width:100px;height:30px;" onClick="window.open('../instruction/instruction.php#videotest')">Instructions</button>		
@@ -65,6 +65,7 @@ $res = $conn->query('select status from tasks_completed where subject_id='.$id);
     <script type="text/javascript">
             function vidplay() {
                 $('#Video1').css("visibility", "visible");
+                //$('#play').css("visibility","hidden");
                 $('#Video1').get(0).play();            
             }
             $(window).load(function() {
