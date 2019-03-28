@@ -768,7 +768,7 @@ if ($res){
 			
 
 		});
-		alert(stars) // working
+		
 
                 var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);    
                 if (score == 0) {
@@ -806,10 +806,29 @@ if ($res){
             // No stars selected
 	    for(k = 0; k < 9; k++) {
                 starSum = Stars[k]+starSum;
-                alert(starSum)
                 
+	    }//starSum working
+	    if (starSum<4){
+			score=0;
 	    }
-	    
+    	if (Lowest>4){
+			score=0;
+		}
+		if (Highest<4){
+			score=0;
+		}
+		if (Time<6000){
+			score=0;
+		}
+		if (Highest=='none'){
+			score=0;
+		}
+		if (Lowest=='none'){
+			score=0;
+		}
+		if (Highest<Lowest){
+			score=0;
+		}
             
 	    
             
