@@ -803,48 +803,16 @@ if ($res){
             for (k = 1; k < 9; k++) {
                 starSum = Stars[k]+starSum;
                 
-                
-            }
-            alert(Stars)
-            score = starSum;
-            alert(score)
-            if (starSum == 9)
-                score -= 1;
-            
-            // Inconsistent none-answer
-            if ((Lowest == "none" && Highest != "none") || (Highest == "none" && Lowest != "none"))
-                score -= 3;
-            // Lowest outside interval    
-            if (Lowest != "none")
-                if ((Lowest < 0) || (Lowest > 7))
-                    score -= 3;
-            // Highest outside interval
-            if (Highest != "none")
-                if ((Highest < 0) || (Highest > 7))
-                    score -= 3;
-            // Lowest and Highest inconsistent
-            if (Highest < Lowest)
-                score -= 1;
-            // Low time on page
-            if (Time < 6000)
-                score -= 1;
-            // Clicks on background            
-            if (ClickNum > 1) {
-                alert(score)
-                score -= 1;
-                if (ClickNum > 3)
-                    alert('clickNum')
-                    score -= 2;
-                    
-            }
-            if (Lowest >= 5){
-                score -= 8;
-            }
-            if (Highest < 5){
-                score -= 8;
-            }
-            
-            return score;
+
+	    }//starSum working
+	    if (starSum<4) {score=0;}
+	    if (Highest<4) {score=0;}
+		if (Lowest>4) {score=0;}
+		if (Time<6000) {score=0;}
+		if (Highest=='none') {score=0;}
+		if (Lowest=='none') {score=0;}
+		if (Highest<=Lowest) {score=0;}
+		return score;
         }
         function screentestDone() {
             $('#screentestDone').toggle();
