@@ -752,7 +752,7 @@ if ($res){
             end = new Date().getTime();
             finalTime = end - start;
             clickCounter_string = JSON.stringify(clickCounter);
-            stars = [0, 0, 0, 0, 0, 0, 0, 0, 0];//9 stars
+            stars = [1, 1, 1, 1, 1, 1, 1, 1, 1];//9 stars
             if ($('#smallestVisible input[type=radio]:checked').length < 1) {
                 $('#smallestVisible').addClass('checkbox-error');
                 alert('Please select smallest visible number');
@@ -764,15 +764,11 @@ if ($res){
             else {
                 $.each($("input[name='blackStars[]']:checked"), function() {
                     
-			stars[$(this).val()] = 1;
-			
-
-		});
-		
-
+                    stars[$(this).val()] = 0;
+                });
                 var score = screentestScore($('#smallestVisible input[type=radio]:checked').val(), $('#highestVisible input[type=radio]:checked').val(), stars, finalTime, clickNo);    
-                if (score == 0) {
-                    
+                if (score < 0) {
+                    alert(score)
                     window.location.href = "errors/screentestfail.php";
                 }
                 else{
@@ -801,12 +797,13 @@ if ($res){
             }
         });
         function screentestScore(Lowest, Highest, Stars, Time, ClickNum) {
-            var score = 5; // to be decided
+            var score = 0;
             var starSum = 0;
             // No stars selected
-	    for(k = 0; k < 9; k++) {
+            for (k = 1; k < 9; k++) {
                 starSum = Stars[k]+starSum;
                 
+
 	    }//starSum working
 	    if (starSum<4) {score=0;}
 	    if (Highest<4) {score=0;}
