@@ -809,25 +809,25 @@ if ($res){
                 
 	    }//starSum working
 	    if (starSum<4){
-			score=0;
+			score=0;//fails if stars selected less than 4
 	    }
-    	if (Lowest>4){
-			score=0;
+       	if (Lowest>4){
+			score=0;//fails if lowest visible number selected is more than 4
 		}
 		if (Highest<4){
-			score=0;
+			score=0;//fails if highest visible number selected is less than 4
 		}
 		if (Time<6000){
-			score=0;
+			score=0;//fails if low time on page
 		}
 		if (Highest=='none'){
-			score=0;
+			score=0;//fails if inconsistency answer "none"
 		}
 		if (Lowest=='none'){
 			score=0;
 		}
 		if (Highest<Lowest){
-			score=0;
+			score=0;//fails if highest greater than Lowest
 		}
             
 	    
