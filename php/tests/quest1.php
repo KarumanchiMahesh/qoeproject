@@ -27,6 +27,7 @@ if ($token_no%14==0){
 else{
     $vid_id=($token_no)%14;
 }
+
 //load the question 
 $res = $conn->query("select * from video_storage where id=".$vid_id);
 if ($res->num_rows>0){
